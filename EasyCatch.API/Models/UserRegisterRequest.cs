@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Net.Mail;
 
 namespace EasyCatch.API.Models
 {
@@ -28,6 +27,5 @@ namespace EasyCatch.API.Models
         ErrorMessage="Surname field is not valid.")]
         public string Surname { get; set; }
         public List<string> Errors { get; set; }
-
     }
 }

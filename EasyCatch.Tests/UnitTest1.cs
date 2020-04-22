@@ -1,3 +1,4 @@
+using EasyCatch.API.Controllers;
 using NUnit.Framework;
 
 namespace EasyCatch.Tests
