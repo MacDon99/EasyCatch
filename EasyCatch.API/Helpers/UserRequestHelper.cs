@@ -1,10 +1,19 @@
+using System.Threading.Tasks;
+using EasyCatch.API.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace EasyCatch.API.Helpers
 {
     public class UserRequestHelper
-    {
-        public bool UserExists()
+    {       
+        private readonly AppDbContext _appDbContext;
+        public UserRequestHelper(AppDbContext appDbContext)
         {
-            return true;
+            _appDbContext = appDbContext;
+        }
+        public async Task<bool> UserExists(string username)
+        {
+            return await _appDbContext.Users.AnyAsync(x => x.Login.ToLower() == username.ToLower());
         }
     }
 }
