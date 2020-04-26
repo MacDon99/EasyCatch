@@ -348,3 +348,8 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/EasyCatch.API/obj
+/EasyCatch.API/bin
+/EasyCatch.API/bin/Debug
+/EasyCatch.API/bin/Debug/netcoreapp3.1
+/EasyCatch.Tests/obj
