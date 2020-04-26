@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EasyCatch.API.Helpers;
 using EasyCatch.API.Models;
+using EasyCatch.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyCatch.API.Controllers
@@ -12,9 +13,11 @@ namespace EasyCatch.API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly UserRequestHelper _requestHelper;
-        public AuthenticationController(UserRequestHelper helper )
+        private readonly IAuthenticationService _authService;
+        public AuthenticationController(UserRequestHelper helper, IAuthenticationService authService  )
         {
             _requestHelper = helper;
+            _authService = authService;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterRequest user)
@@ -23,13 +26,14 @@ namespace EasyCatch.API.Controllers
             {
                 return BadRequest("User with that username already exists!");
             }
-            
-            return StatusCode(201, new User(){
-                Login = user.Login,
-                Password = Encoding.UTF8.GetBytes(user.Password),
-                Email = user.Email,
-                FullName = user.Name + " " +  user.Surname
-            });
+
+            return StatusCode(201, await _authService.RegisterUser(user));            
+            // return StatusCode(201, new User(){
+            //     Login = user.Login,
+            //     Password = Encoding.UTF8.GetBytes(user.Password),
+            //     Email = user.Email,
+            //     FullName = user.Name + " " +  user.Surname
+            // });
         }
     }
 }

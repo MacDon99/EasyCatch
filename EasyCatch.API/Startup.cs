@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyCatch.API.Helpers;
 using EasyCatch.API.Models;
 using EasyCatch.API.Repositories;
+using EasyCatch.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +34,7 @@ namespace EasyCatch.API
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostGreSqlConnection")));
             services.AddScoped<UserRequestHelper>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
