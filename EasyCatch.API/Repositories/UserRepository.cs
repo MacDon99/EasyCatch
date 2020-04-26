@@ -29,6 +29,7 @@ namespace EasyCatch.API.Repositories
             await _appDbContext.SaveChangesAsync();
             
             return new UserRegisterResponse() {
+                Success = true,
                 Token = "SomeToken",
                 UserModel = new UserForResponse(){
                     Login = user.Login,

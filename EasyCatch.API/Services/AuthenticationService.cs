@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using EasyCatch.API.Helpers;
 using EasyCatch.API.Models;
 using EasyCatch.API.Repositories;
 
@@ -8,17 +9,33 @@ namespace EasyCatch.API.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IUserRepository _userRepository;
-        public AuthenticationService(IUserRepository userRepository)
+        private readonly Validations _validations;
+        public AuthenticationService(IUserRepository userRepository, Validations validations )
         {
             _userRepository = userRepository;
+            _validations = validations;
         }
         public Task<User> Login()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<UserRegisterResponse> RegisterUser(UserRegisterRequest user)
+        public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequest user)
         {
+            if(_validations.ValidateUser(user).Count != 0)
+            {
+                return new UserRegisterResponse() {
+                    Success = false,
+                    Token = null,
+                    UserModel = new UserForResponse(){
+                        Login = user.Login,
+                        Email = user.Email,
+                        FullName = string.IsNullOrWhiteSpace(user.Name) || string.IsNullOrWhiteSpace(user.Surname) ? user.Name + user.Surname : GetValidName(user.Name, user.Surname)
+                    },
+                    Errors = user.Errors
+                };
+            }
+
             var userToRegister = new User() {
                 Login = user.Login,
                 Password = !string.IsNullOrWhiteSpace(user.Password) ? Encoding.UTF8.GetBytes(user.Password) : null,
@@ -26,7 +43,7 @@ namespace EasyCatch.API.Services
                 FullName = GetValidName(user.Name, user.Surname)
             };
 
-            return _userRepository.RegisterUser(userToRegister);
+            return await _userRepository.RegisterUser(userToRegister);
         }
         
         private string GetValidName(string name, string surname)

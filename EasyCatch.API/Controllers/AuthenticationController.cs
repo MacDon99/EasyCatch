@@ -22,7 +22,7 @@ namespace EasyCatch.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterRequest user)
         {
-            if(await _requestHelper.UserExists(user.Login))
+            if(user.Login != null && await _requestHelper.UserExists(user.Login))
             {
                 return BadRequest("User with that username already exists!");
             }
