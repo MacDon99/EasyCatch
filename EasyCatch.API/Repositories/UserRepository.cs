@@ -1,7 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using EasyCatch.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EasyCatch.API.Repositories
 {
@@ -30,7 +36,7 @@ namespace EasyCatch.API.Repositories
             
             return new UserRegisterResponse() {
                 Success = true,
-                Token = "SomeToken",
+                Token = null,
                 UserModel = new UserForResponse(){
                     Login = user.Login,
                     Email = user.Email,
