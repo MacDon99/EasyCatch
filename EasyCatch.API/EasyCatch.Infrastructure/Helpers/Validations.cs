@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using EasyCatch.API.Models;
+using EasyCatch.API.Core.Requests;
 
-namespace EasyCatch.API.Helpers
+namespace EasyCatch.API.Infrastructure.Helpers
 {
     public class Validations
     {

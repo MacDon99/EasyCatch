@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyCatch.API.Models
+namespace EasyCatch.API.Core.Models
 {
     public class AppDbContext : DbContext
     {

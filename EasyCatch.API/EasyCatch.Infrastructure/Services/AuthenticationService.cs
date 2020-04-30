@@ -4,13 +4,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using EasyCatch.API.Helpers;
-using EasyCatch.API.Models;
-using EasyCatch.API.Repositories;
+using EasyCatch.API.Infrastructure.Helpers;
+using EasyCatch.API.Core.Models;
+using EasyCatch.API.Core.Requests;
+using EasyCatch.API.Core.Responses;
+using EasyCatch.API.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace EasyCatch.API.Services
+namespace EasyCatch.API.Infrastructure.Services
 {
     public class AuthenticationService : IAuthenticationService
     {

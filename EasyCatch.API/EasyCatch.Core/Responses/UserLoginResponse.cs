@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EasyCatch.API.Models
+namespace EasyCatch.API.Core.Responses
 {
     public class UserLoginResponse
     {

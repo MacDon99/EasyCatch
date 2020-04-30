@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace EasyCatch.API.Models
+namespace EasyCatch.API.Core.Requests
 {
     public class UserRegisterRequest
     {

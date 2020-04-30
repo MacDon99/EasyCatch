@@ -1,4 +1,4 @@
-namespace EasyCatch.API.Models
+namespace EasyCatch.API.Core.Responses
 {
     public class UserForResponse
     {

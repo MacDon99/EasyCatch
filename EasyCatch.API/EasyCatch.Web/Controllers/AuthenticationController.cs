@@ -1,12 +1,12 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EasyCatch.API.Helpers;
-using EasyCatch.API.Models;
-using EasyCatch.API.Services;
+using EasyCatch.API.Infrastructure.Helpers;
+using EasyCatch.API.Core.Requests;
+using EasyCatch.API.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyCatch.API.Controllers
+namespace EasyCatch.API.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")] 

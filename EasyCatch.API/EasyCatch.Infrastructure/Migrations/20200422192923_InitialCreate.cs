@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EasyCatch.API.Migrations
+namespace EasyCatch.API.Infrastructure.Migrations
 {
     public partial class InitialCreate : Migration
     {

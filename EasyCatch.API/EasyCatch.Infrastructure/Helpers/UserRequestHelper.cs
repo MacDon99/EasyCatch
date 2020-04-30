@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using EasyCatch.API.Repositories;
+using EasyCatch.API.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyCatch.API.Helpers
+namespace EasyCatch.API.Infrastructure.Helpers
 {
     public class UserRequestHelper
     {       

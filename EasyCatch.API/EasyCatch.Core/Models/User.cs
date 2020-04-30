@@ -1,6 +1,6 @@
 using System;
 
-namespace EasyCatch.API.Models
+namespace EasyCatch.API.Core.Models
 {
     public class User
     {

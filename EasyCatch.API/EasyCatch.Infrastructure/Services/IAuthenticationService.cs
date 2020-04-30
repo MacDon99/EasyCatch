@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
-using EasyCatch.API.Models;
+using EasyCatch.API.Core.Models;
+using EasyCatch.API.Core.Requests;
+using EasyCatch.API.Core.Responses;
 
-namespace EasyCatch.API.Services
+namespace EasyCatch.API.Infrastructure.Services
 {
     public interface IAuthenticationService
     {
