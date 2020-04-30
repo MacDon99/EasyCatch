@@ -47,7 +47,7 @@ namespace EasyCatch.API.Infrastructure.Services
 
              var userToRegister = new User() {
                 Login = user.Login,
-                Password = !string.IsNullOrWhiteSpace(user.Password) ? Encoding.UTF8.GetBytes(user.Password) : null,
+                Password = !string.IsNullOrWhiteSpace(user.Password) ? GetPasswordHashSalt(Encoding.UTF8.GetBytes(user.Password)) : null,
                 Email = user.Email,
                 FullName = GetValidName(user.Name, user.Surname)
             };
@@ -90,7 +90,10 @@ namespace EasyCatch.API.Infrastructure.Services
                 };
             }
 
-            userFromDatabase = await _userRepository.LoginUser(user);
+            userFromDatabase = await _userRepository.LoginUser(new User(){
+                Login = user.Login,
+                Password = GetPasswordHashSalt(Encoding.UTF8.GetBytes(user.Password)),
+            });
 
             if(userFromDatabase == null)
             {
@@ -99,6 +102,7 @@ namespace EasyCatch.API.Infrastructure.Services
                     Errors = user.Errors
                 };
             }
+            
             userFromDatabase.Token = GetAccessToken(new User(){
                 Login = userFromDatabase.UserModel.Login,
             });
@@ -132,6 +136,13 @@ namespace EasyCatch.API.Infrastructure.Services
             var newToken = new {newTokenn = tokenHandler.WriteToken(token)};
 
             return new {token = tokenHandler.WriteToken(token)}.token;
+        }
+        private byte[] GetPasswordHashSalt(byte[] password)
+        {
+            using(var hmac = new System.Security.Cryptography.HMACSHA512(Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings:Salt").Value)))
+            {
+                return hmac.ComputeHash(password);
+            };
         }
     }
 }
