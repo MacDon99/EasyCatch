@@ -6,6 +6,7 @@ namespace EasyCatch.API.Services
     public interface IAuthenticationService
     {
          Task<UserRegisterResponse> RegisterUser(UserRegisterRequest user);
+         Task<UserLoginResponse> LoginUser(UserLoginRequest user);
          Task<User> Login();
     }
 }

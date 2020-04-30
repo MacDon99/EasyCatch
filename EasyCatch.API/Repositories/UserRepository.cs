@@ -29,6 +29,20 @@ namespace EasyCatch.API.Repositories
             return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Login == username);
         }
 
+        public async Task<UserLoginResponse> LoginUser(UserLoginRequest request)
+        {
+           var userFromDatabase = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Login == request.Login && u.Password == Encoding.UTF8.GetBytes(request.Password));
+           if(userFromDatabase != null)
+                return new UserLoginResponse(){
+                    UserModel = new UserForResponse(){
+                        Login = userFromDatabase.Login,
+                        Email = userFromDatabase.Email,
+                        FullName = userFromDatabase.FullName
+                    }
+                };
+            return null;
+        }
+
         public async Task<UserRegisterResponse> RegisterUser(User user)
         {
             await _appDbContext.Users.AddAsync(user);

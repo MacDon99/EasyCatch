@@ -10,6 +10,7 @@ namespace EasyCatch.API.Repositories
          Task<User> GetUserByID(Guid id);
          Task<User> GetUserByUsername(string username);
          Task<UserRegisterResponse> RegisterUser(User user);
+         Task<UserLoginResponse> LoginUser(UserLoginRequest request);
 
     }
 }

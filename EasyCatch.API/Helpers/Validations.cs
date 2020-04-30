@@ -6,15 +6,29 @@ namespace EasyCatch.API.Helpers
 {
     public class Validations
     {
-        public List<string> ValidateUser(UserRegisterRequest user)
+        public List<string> ValidateUserRegister(UserRegisterRequest request)
         {
-            user.Errors = ValidateLogin(user);
-            user.Errors = ValidatePassword(user);
-            user.Errors = ValidateEmail(user);
-            user.Errors = ValidateName(user);
-            user.Errors = ValidateSurname(user);
+            request.Errors = ValidateLogin(request);
+            request.Errors = ValidatePassword(request);
+            request.Errors = ValidateEmail(request);
+            request.Errors = ValidateName(request);
+            request.Errors = ValidateSurname(request);
 
-            return user.Errors;
+            return request.Errors;
+        }
+
+        public List<string> ValidateUserLogin(UserLoginRequest request)
+        {
+            if(string.IsNullOrWhiteSpace(request.Login))
+            {
+                request.Errors.Add("Login cannot be empty!");
+            }
+            if(string.IsNullOrWhiteSpace(request.Password))
+            {
+                request.Errors.Add("Password cannot be empty!");
+            }
+            return request.Errors;
+
         }
 
         private List<string> ValidateLogin(UserRegisterRequest user)

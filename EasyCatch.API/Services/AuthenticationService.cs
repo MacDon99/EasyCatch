@@ -29,7 +29,7 @@ namespace EasyCatch.API.Services
 
         public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequest user)
         {
-            if(_validations.ValidateUser(user).Count != 0)
+            if(_validations.ValidateUserRegister(user).Count != 0)
             {
                 return new UserRegisterResponse() {
                     Success = false,
@@ -66,6 +66,41 @@ namespace EasyCatch.API.Services
 
             //     }
             // };
+        }
+
+        public async Task<UserLoginResponse> LoginUser(UserLoginRequest user)
+        {
+            UserLoginResponse userFromDatabase = null;
+
+            user.Errors = _validations.ValidateUserLogin(user);
+
+            if( user.Errors.Count != 0)
+            {
+                return new UserLoginResponse(){
+                    Errors = user.Errors
+                };
+            }
+            if(! await _userRepository.UserExists(user.Login))
+            {
+                user.Errors.Add("User does not exist!");
+                return new UserLoginResponse(){
+                    Errors = user.Errors
+                };
+            }
+
+            userFromDatabase = await _userRepository.LoginUser(user);
+
+            if(userFromDatabase == null)
+            {
+                user.Errors.Add("Username and password does not match!");
+                return new UserLoginResponse(){
+                    Errors = user.Errors
+                };
+            }
+            userFromDatabase.Token = GetAccessToken(new User(){
+                Login = userFromDatabase.UserModel.Login,
+            });
+            return userFromDatabase;
         }
 
         private string GetValidName(string name, string surname)
