@@ -1,10 +1,11 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EasyCatch.API.Infrastructure.Helpers;
+using EasyCatch.API.Infrastructure.Validators;
 using EasyCatch.API.Core.Requests;
 using EasyCatch.API.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
+using EasyCatch.API.Infrastructure.Repositories;
 
 namespace EasyCatch.API.Web.Controllers
 {
@@ -12,17 +13,17 @@ namespace EasyCatch.API.Web.Controllers
     [Route("api/[controller]")] 
     public class AuthenticationController : ControllerBase
     {
-        private readonly UserRequestHelper _requestHelper;
         private readonly IAuthenticationService _authService;
-        public AuthenticationController(UserRequestHelper helper, IAuthenticationService authService  )
+        private readonly IUserRepository _userRepository;
+        public AuthenticationController(IAuthenticationService authService, IUserRepository userRepository)
         {
-            _requestHelper = helper;
             _authService = authService;
+            _userRepository = userRepository;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterRequest user)
         {
-            if(user.Login != null && await _requestHelper.UserExists(user.Login))
+            if(user.Login != null && await _userRepository.UserExists(user.Login))
             {
                 return BadRequest("User with that username already exists!");
             }

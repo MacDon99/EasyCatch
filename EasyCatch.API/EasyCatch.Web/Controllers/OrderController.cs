@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EasyCatch.API.Infrastructure.Helpers;
+using EasyCatch.API.Infrastructure.Validators;
 using EasyCatch.API.Core.Requests;
 using EasyCatch.API.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;

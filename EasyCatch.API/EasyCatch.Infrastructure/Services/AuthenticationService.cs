@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using EasyCatch.API.Infrastructure.Helpers;
+using EasyCatch.API.Infrastructure.Validators;
 using EasyCatch.API.Core.Models;
 using EasyCatch.API.Core.Requests;
 using EasyCatch.API.Core.Responses;
@@ -17,8 +17,8 @@ namespace EasyCatch.API.Infrastructure.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IUserRepository _userRepository;
-        private readonly Validations _validations;        private readonly IConfiguration _configuration;
-        public AuthenticationService(IUserRepository userRepository, Validations validations, IConfiguration configuration)
+        private readonly UserValidations _validations;        private readonly IConfiguration _configuration;
+        public AuthenticationService(IUserRepository userRepository, UserValidations validations, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _validations = validations;

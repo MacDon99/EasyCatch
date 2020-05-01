@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using EasyCatch.API.Core.Requests;
 
-namespace EasyCatch.API.Infrastructure.Helpers
+namespace EasyCatch.API.Infrastructure.Validators
 {
-    public class Validations
+    public class UserValidations
     {
         public List<string> ValidateUserRegister(UserRegisterRequest request)
         {

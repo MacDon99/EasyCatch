@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyCatch.API.Infrastructure.Helpers;
+using EasyCatch.API.Infrastructure.Validators;
 using EasyCatch.API.Core.Models;
 using EasyCatch.API.Infrastructure.Repositories;
 using EasyCatch.API.Infrastructure.Services;
@@ -38,8 +38,7 @@ namespace EasyCatch.API
             
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostGreSqlConnection")));
-            services.AddScoped<UserRequestHelper>();
-            services.AddScoped<Validations>();
+            services.AddScoped<UserValidations>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             IdentityModelEventSource.ShowPII = true;
