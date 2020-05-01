@@ -20,6 +20,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using EasyCatch.Infrastructure.Services;
+using EasyCatch.Infrastructure.Repositories;
+using EasyCatch.Infrastructure.Validators;
 
 namespace EasyCatch.API
 {
@@ -39,8 +42,11 @@ namespace EasyCatch.API
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostGreSqlConnection"), b => b.MigrationsAssembly("EasyCatch.API")));
             services.AddScoped<UserValidations>();
+            services.AddScoped<ProductValidations>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IProductService, ProductService>();
             IdentityModelEventSource.ShowPII = true;
             services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
