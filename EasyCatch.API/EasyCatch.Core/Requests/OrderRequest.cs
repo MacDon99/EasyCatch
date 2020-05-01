@@ -7,7 +7,10 @@ namespace EasyCatch.Core.Requests
     {
         List<ProductToBuy> Products { get; set; }
         public decimal TotalPrice { get; set; }
-        public Address AddressToSend { get; private set; }
+        public string Street { get; set; }
+        public string HouseNumber { get; set; }
+        public string PostCode { get; set; }
+        public string City { get; set; }
 
         public OrderRequest()
         {
@@ -19,9 +22,12 @@ namespace EasyCatch.Core.Requests
             Products.Add(product);
             TotalPrice += product.Price * product.Quantity;
         }
-        public void SetAddressToSend(Address address)
+        public void SetAddressToSend(string street, string houseNumber, string postCode, string city)
         {
-            AddressToSend = address;
+            Street = street;
+            HouseNumber = houseNumber;
+            PostCode = postCode;
+            City = city;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace EasyCatch.API
         {
             
             services.AddControllers();
-            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostGreSqlConnection")));
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostGreSqlConnection"), b => b.MigrationsAssembly("EasyCatch.API")));
             services.AddScoped<UserValidations>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();

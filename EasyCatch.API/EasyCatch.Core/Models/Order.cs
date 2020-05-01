@@ -8,6 +8,10 @@ namespace EasyCatch.Core.Models
         public Guid Id { get; set; }
         List<ProductToBuy> Products { get; set; }
         public decimal TotalPrice { get; set; }
-        public Address AddressToSend { get; private set; }
+        //address
+        public string Street { get; set; }
+        public string HouseNumber { get; set; }
+        public string PostCode { get; set; }
+        public string City { get; set; }
     }
 }
