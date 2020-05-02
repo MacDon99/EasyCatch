@@ -5,7 +5,7 @@ namespace EasyCatch.Core.Requests
 {
     public class OrderRequest
     {
-        List<ProductToBuy> Products { get; set; }
+        public List<ProductToBuy> Products { get; set; }
         public decimal TotalPrice { get; set; }
         public string Street { get; set; }
         public string HouseNumber { get; set; }
