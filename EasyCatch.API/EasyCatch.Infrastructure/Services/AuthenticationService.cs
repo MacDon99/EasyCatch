@@ -31,8 +31,11 @@ namespace EasyCatch.API.Infrastructure.Services
 
         public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequest user)
         {
-            if(_validations.ValidateUserRegister(user).Count != 0)
+            if(user.Login == null || await _userRepository.UserExists(user.Login) || _validations.ValidateUserRegister(user).Count != 0)
             {
+                if(user.Login != null && await _userRepository.UserExists(user.Login))
+                    user.Errors.Add("User with that login already exist!");
+                user.Errors = _validations.ValidateUserRegister(user);
                 return new UserRegisterResponse() {
                     Success = false,
                     Token = null,
@@ -52,22 +55,9 @@ namespace EasyCatch.API.Infrastructure.Services
                 FullName = GetValidName(user.Name, user.Surname)
             };
 
-//  await _userRepository.RegisterUser(new User() {
-            //     Login = user.Login,
-            //     Password = !string.IsNullOrWhiteSpace(user.Password) ? Encoding.UTF8.GetBytes(user.Password) : null,
-            //     Email = user.Email,
-            //     FullName = GetValidName(user.Name, user.Surname)
-            // });
             var userToPass = await _userRepository.RegisterUser(userToRegister);
             userToPass.Token = GetAccessToken(userToRegister);
             return userToPass;
-            // return new UserRegisterResponse(){
-            //     Success = true,
-            //     Token = GetAccessToken(new User(){}),
-            //     UserModel = new UserForResponse(){
-
-            //     }
-            // };
         }
 
         public async Task<UserLoginResponse> LoginUser(UserLoginRequest user)
@@ -79,6 +69,7 @@ namespace EasyCatch.API.Infrastructure.Services
             if( user.Errors.Count != 0)
             {
                 return new UserLoginResponse(){
+                    Success = false,
                     Errors = user.Errors
                 };
             }
@@ -86,6 +77,7 @@ namespace EasyCatch.API.Infrastructure.Services
             {
                 user.Errors.Add("User does not exist!");
                 return new UserLoginResponse(){
+                    Success = false,
                     Errors = user.Errors
                 };
             }
@@ -99,6 +91,7 @@ namespace EasyCatch.API.Infrastructure.Services
             {
                 user.Errors.Add("Username and password does not match!");
                 return new UserLoginResponse(){
+                    Success = false,
                     Errors = user.Errors
                 };
             }

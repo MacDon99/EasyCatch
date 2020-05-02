@@ -23,17 +23,21 @@ namespace EasyCatch.API.Web.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterRequest user)
         {
-            if(user.Login != null && await _userRepository.UserExists(user.Login))
-            {
-                return BadRequest("User with that username already exists!");
-            }
+            var userToRegister = await _authService.RegisterUser(user);
+            if(userToRegister.Success == false)
+                return BadRequest(userToRegister);
 
-            return StatusCode(201, await _authService.RegisterUser(user));            
+            return StatusCode(201, userToRegister);
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequest user)
         {
-            return StatusCode(201, await _authService.LoginUser(user));            
+            var userToLogin = await _authService.LoginUser(user);
+
+            if(userToLogin.Success == false)
+                return BadRequest(userToLogin);
+
+            return Ok(userToLogin);
         }
     }
 }
