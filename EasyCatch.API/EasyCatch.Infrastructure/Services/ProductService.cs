@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyCatch.Core.Models;
@@ -26,10 +27,16 @@ namespace EasyCatch.Infrastructure.Services
                 {
                     Success = false,
                     Message = "Failed to add a product",
-                    Product = product
+                    Product = new ProductModel(){
+                        Name = product.Name,
+                        Price = product.Price,
+                        Description = product.Description,
+                        PhotoUrl = product.PhotoUrl,
+                        Quantity = product.Quantity
+                    }
                 };
             }
-            return await _productRepository.AddProduct(new Product(){
+            return await _productRepository.AddProductAsync(new Product(){
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
@@ -38,14 +45,38 @@ namespace EasyCatch.Infrastructure.Services
             });
         }
 
-        public Task<ProductResponse> DeleteProduct()
+        public async Task<ProductResponse> DeleteProduct(string id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                new Guid(id);
+            }
+            catch
+            {
+                return new ProductResponse(){
+                    Success = false,
+                    Message = "Product cannot be found"
+                };
+            }
+            
+            if(! await _productRepository.ProductExist(new Guid(id)))
+                return new ProductResponse(){
+                    Success = false,
+                    Message = "Product cannot be found"
+                };
+
+            return await _productRepository.DeleteProductByIDAsync(new Guid(id));
         }
 
-        public Task<ProductResponse> GetProductByID()
+        public async Task<ProductResponse> GetProductByID(Guid id)
         {
-            throw new System.NotImplementedException();
+            if(! await _productRepository.ProductExist(id))
+                return new ProductResponse(){
+                    Success = false,
+                    Message = "Product cannot be found"
+                };
+
+            return await _productRepository.GetProductByIDAsync(id);
         }
 
         public Task<List<ProductResponse>> GetProductsByName()

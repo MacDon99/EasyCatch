@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyCatch.Core.Models;
@@ -9,8 +10,8 @@ namespace EasyCatch.Infrastructure.Services
     public interface IProductService
     {
          Task<ProductResponse> AddProduct(ProductRequest product);
-         Task<ProductResponse> DeleteProduct();
-         Task<ProductResponse> GetProductByID();
+         Task<ProductResponse> DeleteProduct(string id);
+         Task<ProductResponse> GetProductByID(Guid id);
          Task<List<ProductResponse>> GetProductsByName();
     }
 }

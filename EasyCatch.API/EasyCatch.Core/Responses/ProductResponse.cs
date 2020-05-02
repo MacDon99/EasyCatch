@@ -7,6 +7,6 @@ namespace EasyCatch.Core.Responses
     {
         public bool Success { get; set; }
         public string Message { get; set; }
-        public ProductRequest Product { get; set; }
+        public ProductModel Product { get; set; }
     }
 }

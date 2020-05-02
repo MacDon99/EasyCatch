@@ -29,28 +29,11 @@ namespace EasyCatch.API.Web.Controllers
             }
 
             return StatusCode(201, await _authService.RegisterUser(user));            
-            // return StatusCode(201, new User(){
-            //     Login = user.Login,
-            //     Password = Encoding.UTF8.GetBytes(user.Password),
-            //     Email = user.Email,
-            //     FullName = user.Name + " " +  user.Surname
-            // });
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequest user)
         {
-            // if(user.Login != null && ! await _requestHelper.UserExists(user.Login))
-            // {
-            //     return BadRequest("User with that username does not exists!");
-            // }
-
             return StatusCode(201, await _authService.LoginUser(user));            
-            // return StatusCode(201, new User(){
-            //     Login = user.Login,
-            //     Password = Encoding.UTF8.GetBytes(user.Password),
-            //     Email = user.Email,
-            //     FullName = user.Name + " " +  user.Surname
-            // });
         }
     }
 }

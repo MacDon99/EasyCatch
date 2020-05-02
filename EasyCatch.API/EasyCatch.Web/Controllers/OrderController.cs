@@ -16,15 +16,15 @@ namespace EasyCatch.API.Web.Controllers
         public OrderController()
         {
         }
-        [HttpPost("createorder")]
-        public async Task<IActionResult> Add()
-        {
-            return StatusCode(200);
-        }
-        [HttpPost("addProduct/{orderId}/{productId}")]
-        public async Task<IActionResult> Add(Guid orderId, Guid productId)
-        {
-            return StatusCode(200);
-        }
+        // [HttpPost("createorder")]
+        // public async Task<IActionResult> Add()
+        // {
+        //     return StatusCode(200);
+        // }
+        // [HttpPost("addProduct/{orderId}/{productId}")]
+        // public async Task<IActionResult> Add(Guid orderId, Guid productId)
+        // {
+        //     return StatusCode(200);
+        // }
     }
 }

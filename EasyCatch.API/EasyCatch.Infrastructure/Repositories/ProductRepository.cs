@@ -15,13 +15,14 @@ namespace EasyCatch.Infrastructure.Repositories
         {
             _appDbContext = appDbContext;
         }
-        public async Task<ProductResponse> AddProduct(Product product)
+        public async Task<ProductResponse> AddProductAsync(Product product)
         {
             await _appDbContext.Products.AddAsync(product);
+            await _appDbContext.SaveChangesAsync();
             return new ProductResponse(){
                 Success = true,
                 Message = "The following product has been added",
-                Product = new ProductRequest(){
+                Product = new ProductModel(){
                     Name = product.Name,
                     Price = product.Price,
                     Description = product.Description,
@@ -31,19 +32,48 @@ namespace EasyCatch.Infrastructure.Repositories
             };
         }
 
-        public Task<ProductResponse> DeleteProduct()
+        public async Task<ProductResponse> DeleteProductByIDAsync(Guid id)
+        {
+            var productFromDatabase = await _appDbContext.Products.FindAsync(id);
+            _appDbContext.Products.Remove(productFromDatabase);
+            await _appDbContext.SaveChangesAsync();
+            return new ProductResponse(){
+                Success = true,
+                Message = "You have deleted the following product",
+                Product = new ProductModel(){
+                    Name = productFromDatabase.Name,
+                    Price = productFromDatabase.Price,
+                    Description = productFromDatabase.Description,
+                    PhotoUrl = productFromDatabase.PhotoUrl,
+                    Quantity = productFromDatabase.Quantity
+                }
+            };
+        }
+
+        public async Task<ProductResponse> GetProductByIDAsync(Guid id)
+        {
+            var productFromDatabase = await _appDbContext.Products.FindAsync(id);
+            return new ProductResponse(){
+                Success = true,
+                Message = "You get the following product",
+                Product = new ProductModel(){
+                    Name = productFromDatabase.Name,
+                    Price = productFromDatabase.Price,
+                    Description = productFromDatabase.Description,
+                    PhotoUrl = productFromDatabase.PhotoUrl,
+                    Quantity = productFromDatabase.Quantity
+                }
+            };
+        }
+
+        public Task<List<ProductResponse>> GetProductsByNameAsync(string name)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ProductResponse> GetProductByID(Guid id)
+        public async Task<bool> ProductExist(Guid id)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<List<ProductResponse>> GetProductsByName(string name)
-        {
-            throw new System.NotImplementedException();
+            return await _appDbContext.Products.FindAsync(id) != null;
         }
     }
 }

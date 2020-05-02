@@ -7,9 +7,12 @@ using EasyCatch.API.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using EasyCatch.Infrastructure.Services;
 using EasyCatch.Core.Requests;
+using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace EasyCatch.API.Web.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")] 
     public class ProductController : ControllerBase
@@ -25,10 +28,14 @@ namespace EasyCatch.API.Web.Controllers
             return StatusCode(200, await _productService.AddProduct(product));
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(int id)
+        public async Task<IActionResult> GetProduct(Guid id)
         {
-
-            return StatusCode(200);
+            return StatusCode(200, await _productService.GetProductByID(id));
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(string id)
+        {
+            return StatusCode(200, await _productService.DeleteProduct(id));
         }
     }
 }
