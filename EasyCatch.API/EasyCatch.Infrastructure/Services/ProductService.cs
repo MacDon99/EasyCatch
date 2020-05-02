@@ -47,19 +47,7 @@ namespace EasyCatch.Infrastructure.Services
 
         public async Task<ProductResponse> DeleteProduct(string id)
         {
-            try
-            {
-                new Guid(id);
-            }
-            catch
-            {
-                return new ProductResponse(){
-                    Success = false,
-                    Message = "Product cannot be found"
-                };
-            }
-            
-            if(! await _productRepository.ProductExist(new Guid(id)))
+            if(! isValidId(id)! || await _productRepository.ProductExist(new Guid(id)))
                 return new ProductResponse(){
                     Success = false,
                     Message = "Product cannot be found"
@@ -68,20 +56,33 @@ namespace EasyCatch.Infrastructure.Services
             return await _productRepository.DeleteProductByIDAsync(new Guid(id));
         }
 
-        public async Task<ProductResponse> GetProductByID(Guid id)
+        public async Task<ProductResponse> GetProductByID(string id)
         {
-            if(! await _productRepository.ProductExist(id))
+            if(! isValidId(id) || ! await _productRepository.ProductExist(new Guid(id)))
                 return new ProductResponse(){
                     Success = false,
                     Message = "Product cannot be found"
                 };
 
-            return await _productRepository.GetProductByIDAsync(id);
+            return await _productRepository.GetProductByIDAsync(new Guid(id));
         }
 
         public Task<List<ProductResponse>> GetProductsByName()
         {
             throw new System.NotImplementedException();
+        }
+
+        private bool isValidId(string id)
+        {
+            try
+            {
+                new Guid(id);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

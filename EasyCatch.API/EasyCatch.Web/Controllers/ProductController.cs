@@ -25,17 +25,32 @@ namespace EasyCatch.API.Web.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddProduct(ProductRequest product)
         {
-            return StatusCode(200, await _productService.AddProduct(product));
+            var productToAdd = await _productService.AddProduct(product);
+
+            if(productToAdd.Success == false)
+                return BadRequest(productToAdd);
+
+            return StatusCode(201, productToAdd);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(Guid id)
+        public async Task<IActionResult> GetProduct(string id)
         {
-            return StatusCode(200, await _productService.GetProductByID(id));
+            var productToGet = await _productService.GetProductByID(id);
+
+            if(productToGet.Success == false)
+                return BadRequest(productToGet);
+
+            return Ok(productToGet);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(string id)
         {
-            return StatusCode(200, await _productService.DeleteProduct(id));
+            var productToDelete = await _productService.DeleteProduct(id);
+
+            if(productToDelete.Success == false)
+                return BadRequest(productToDelete);
+
+            return Ok(productToDelete);
         }
     }
 }

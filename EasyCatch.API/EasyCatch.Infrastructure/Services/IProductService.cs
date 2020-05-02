@@ -11,7 +11,7 @@ namespace EasyCatch.Infrastructure.Services
     {
          Task<ProductResponse> AddProduct(ProductRequest product);
          Task<ProductResponse> DeleteProduct(string id);
-         Task<ProductResponse> GetProductByID(Guid id);
+         Task<ProductResponse> GetProductByID(string id);
          Task<List<ProductResponse>> GetProductsByName();
     }
 }
