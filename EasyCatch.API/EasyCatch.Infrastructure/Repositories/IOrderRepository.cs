@@ -11,6 +11,9 @@ namespace EasyCatch.Infrastructure.Repositories
          Task<OrderResponse> CreateOrderAsync(Order order);
          Task<OrderResponse> GetOrderByIDAsync(Guid id);
          OrderResponse DeleteOrder(Order order);
-         OrderResponse UpdateOrder(Order order);
+         Task<bool> OrderExist(Guid orderId);
+         Task<OrderResponse> AddProductToOrderAsync(Guid orderId, ProductToBuy product, Guid productId);
+         Task<OrderResponse> SetOrderAddress(Guid orderId, string street, string houseNumber, string postCode, string city);
+         Task<Order> GetWholeOrder(Guid orderId);
     }
 }

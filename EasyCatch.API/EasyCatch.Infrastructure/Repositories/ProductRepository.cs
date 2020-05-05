@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyCatch.API.Core.Models;
 using EasyCatch.Core.Models;
 using EasyCatch.Core.Requests;
 using EasyCatch.Core.Responses;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyCatch.Infrastructure.Repositories
 {
@@ -71,9 +73,26 @@ namespace EasyCatch.Infrastructure.Repositories
             throw new System.NotImplementedException();
         }
 
+        public async Task<Product> GetWholeProductByIdAsync(Guid id)
+        {
+            return await _appDbContext.Products.FindAsync(id);
+        }
+
         public async Task<bool> ProductExist(Guid id)
         {
             return await _appDbContext.Products.FindAsync(id) != null;
+        }
+
+        public List<ProductToBuy> GetAllProducts()
+        {
+            return  _appDbContext.ProductToBuy.ToList();
+        }
+
+        public async Task<bool> TakeOneProduct(Guid productId)
+        {
+            _appDbContext.Products.FirstOrDefault(p => p.Id == productId).Quantity-=1;
+            await _appDbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

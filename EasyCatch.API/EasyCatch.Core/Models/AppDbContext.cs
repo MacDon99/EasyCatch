@@ -10,6 +10,7 @@ namespace EasyCatch.API.Core.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductToBuy> ProductToBuy { get; set; }
         public DbSet<Order> Orders { get; set; }
     }
 }

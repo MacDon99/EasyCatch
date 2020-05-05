@@ -21,6 +21,7 @@ namespace EasyCatch.Infrastructure.Services
         public async Task<ProductResponse> AddProduct(ProductRequest product)
         {
             product.Errors = _validations.ValidateProduct(product);
+            
             if(product.Errors.Count != 0)
             {
                 return new ProductResponse()
@@ -36,6 +37,7 @@ namespace EasyCatch.Infrastructure.Services
                     }
                 };
             }
+
             return await _productRepository.AddProductAsync(new Product(){
                 Name = product.Name,
                 Price = product.Price,

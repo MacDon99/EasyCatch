@@ -8,5 +8,10 @@ namespace EasyCatch.Core.Responses
         public bool Success { get; set; }
         public string Message { get; set; }
         public ProductModel Product { get; set; }
+
+        public ProductResponse()
+        {
+            Product = new ProductModel();
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using EasyCatch.Core.Requests;
 using EasyCatch.Core.Responses;
@@ -8,7 +9,8 @@ namespace EasyCatch.Infrastructure.Services
     {
         Task<OrderResponse> CreateOrderAsync(OrderRequest order);
          Task<OrderResponse> GetOrderByIDAsync(string id);
-         OrderResponse DeleteOrder(string id);
-         OrderResponse UpdateOrder(OrderRequest order);
+         Task<OrderResponse> DeleteOrder(string id);
+         Task<OrderResponse> AddProductToOrderAsync(string orderId, string productId);
+         Task<OrderResponse> SetOrderAddress(AddressRequest address);
     }
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyCatch.Core.Models
 {
@@ -13,5 +15,11 @@ namespace EasyCatch.Core.Models
         public string HouseNumber { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
+        // public Address AddressToSend { get; set; }
+        public Order()
+        {
+            Products = new List<ProductToBuy>();
+            // AddressToSend = new Address();
+        }
     }
 }
