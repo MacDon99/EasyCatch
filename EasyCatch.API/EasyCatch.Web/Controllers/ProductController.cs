@@ -22,10 +22,11 @@ namespace EasyCatch.API.Web.Controllers
         {
             _productService = productService;
         }
+        [AllowAnonymous]
         [HttpPost("add")]
-        public async Task<IActionResult> AddProduct(ProductRequest product)
+        public async Task<IActionResult> AddProduct([FromForm]ProductRequest product)
         {
-            var productToAdd = await _productService.AddProduct(product);
+            var productToAdd = await _productService.AddProduct(product, this.Request);
 
             if(productToAdd.Success == false)
                 return BadRequest(productToAdd);

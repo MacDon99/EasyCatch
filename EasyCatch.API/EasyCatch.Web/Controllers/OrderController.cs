@@ -9,6 +9,9 @@ using System;
 using EasyCatch.Infrastructure.Services;
 using EasyCatch.Core.Requests;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 
 namespace EasyCatch.API.Web.Controllers
 {
@@ -63,8 +66,7 @@ namespace EasyCatch.API.Web.Controllers
 
             if(orderToDelete.Success == false)
                 return BadRequest(orderToDelete);
-
-            return Ok(orderToDelete);
+            return Ok();
         }
     }
 }
