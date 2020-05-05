@@ -5,7 +5,7 @@ For the first x commits I used different git account - RybczanSodu, idk why.
 
 If you want to run the API project, type dotnet run in EasyCatch.Api/EasyCatch.Web
 
-{
+
 Using:
       Controllers:
                 Authentication:
@@ -23,8 +23,7 @@ Using:
                                                                    {
                                                                    "login": "login",
                                                                    "password": "password"
-                                                                   }
-                                                                   
+                                                                   }                                              
                 Order:
                       localhost:port/order/createorder - no json needed
                       localhost:port/order/addProduct - patch to add product to order
@@ -59,4 +58,4 @@ Using:
                                                      - as productId type actual productId
                       localhost:port/product/productId - get to get a product
                                                      - as productId type actual productId
-}
+
