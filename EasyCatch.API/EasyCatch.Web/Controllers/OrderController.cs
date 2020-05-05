@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EasyCatch.API.Web.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")] 
     public class OrderController : ControllerBase
@@ -26,7 +27,6 @@ namespace EasyCatch.API.Web.Controllers
         {
             return StatusCode(201, await _orderService.CreateOrderAsync(order));
         }
-        [AllowAnonymous]
         [HttpPatch("addProduct")]
         public async Task<IActionResult> AddProductToOrder(AddProductToOrderRequest request)
         {

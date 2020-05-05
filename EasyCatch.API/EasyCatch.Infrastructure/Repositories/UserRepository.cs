@@ -26,6 +26,11 @@ namespace EasyCatch.API.Infrastructure.Repositories
             return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public async Task<User> GetUserByLogin(string login)
+        {
+            return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Login == login);
+        }
+
         public async Task<User> GetUserByUsername(string username)
         {
             return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Login == username);
@@ -48,6 +53,8 @@ namespace EasyCatch.API.Infrastructure.Repositories
 
         public async Task<UserRegisterResponse> RegisterUser(User user)
         {
+            if(await _appDbContext.Users.CountAsync() == 0)
+                user.Role = "Admin";
             await _appDbContext.Users.AddAsync(user);
             await _appDbContext.SaveChangesAsync();
             

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using EasyCatch.API.Core.Models;
 using EasyCatch.API.Core.Requests;
@@ -9,6 +10,7 @@ namespace EasyCatch.API.Infrastructure.Services
     {
          Task<UserRegisterResponse> RegisterUser(UserRegisterRequest user);
          Task<UserLoginResponse> LoginUser(UserLoginRequest user);
+         Task<User> GetUserByLogin(string login);
          Task<User> Login();
     }
 }

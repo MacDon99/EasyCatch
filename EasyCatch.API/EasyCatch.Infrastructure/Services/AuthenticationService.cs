@@ -52,7 +52,8 @@ namespace EasyCatch.API.Infrastructure.Services
                 Login = user.Login,
                 Password = !string.IsNullOrWhiteSpace(user.Password) ? GetPasswordHashSalt(Encoding.UTF8.GetBytes(user.Password)) : null,
                 Email = user.Email,
-                FullName = GetValidName(user.Name, user.Surname)
+                FullName = GetValidName(user.Name, user.Surname),
+                Role = "User"
             };
 
             var userToPass = await _userRepository.RegisterUser(userToRegister);
@@ -95,10 +96,8 @@ namespace EasyCatch.API.Infrastructure.Services
                     Errors = user.Errors
                 };
             }
-            
-            userFromDatabase.Token = GetAccessToken(new User(){
-                Login = userFromDatabase.UserModel.Login,
-            });
+           // var userRole = GetUserByLogin(user.Login).Result.Role;
+            userFromDatabase.Token = GetAccessToken(await GetUserByLogin(user.Login));
             return userFromDatabase;
         }
 
@@ -111,7 +110,8 @@ namespace EasyCatch.API.Infrastructure.Services
         {
             var claims = new List<Claim>(){
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Login)
+                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(ClaimTypes.Role, user.Role)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
             var creds = new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);
@@ -119,7 +119,7 @@ namespace EasyCatch.API.Infrastructure.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddHours(12),
+                Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = creds
             };
 
@@ -136,6 +136,16 @@ namespace EasyCatch.API.Infrastructure.Services
             {
                 return hmac.ComputeHash(password);
             };
+        }
+
+        public async Task<User> GetUserByLogin(string login)
+        {
+            if(login == null)
+                return null;
+            if(!await _userRepository.UserExists(login))
+                return null;
+
+            return await _userRepository.GetUserByUsername(login);
         }
     }
 }
