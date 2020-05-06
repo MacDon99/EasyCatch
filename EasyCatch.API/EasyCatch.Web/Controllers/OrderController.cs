@@ -66,7 +66,7 @@ namespace EasyCatch.API.Web.Controllers
 
             if(orderToDelete.Success == false)
                 return BadRequest(orderToDelete);
-            return Ok();
+            return Ok(orderToDelete);
         }
     }
 }
