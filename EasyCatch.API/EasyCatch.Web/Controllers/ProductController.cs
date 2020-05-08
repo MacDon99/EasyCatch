@@ -22,7 +22,6 @@ namespace EasyCatch.API.Web.Controllers
         {
             _productService = productService;
         }
-        [AllowAnonymous]
         [HttpPost("add")]
         public async Task<IActionResult> AddProduct([FromForm]ProductRequest product)
         {
