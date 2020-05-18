@@ -46,7 +46,7 @@ namespace EasyCatch.API.Web.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllProducts()
         {
-            return Ok(_productService.GetAllProducts());
+            return Ok(await _productService.GetAllProducts());
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(string id)
