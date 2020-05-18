@@ -17,9 +17,31 @@ class Nav extends React.Component {
         localStorage.removeItem("token");
         // this.forceUpdate();
     }
+    onRegisterClick = () => {
+        this.props.register()
+        if(this.state.registerItemClass == "item")
+        {
+            this.setState({registerItemClass: "item active"})
+            this.setState({mainItemClass: "item"})
+        } else {
+            this.setState({registerItemClass: "item"})
+            this.setState({mainItemClass: "item active"})
+        }
+
+    }
+    onMainClick = () => {
+        this.props.returnToMain()
+        this.setState({registerItemClass: "item"})
+        this.setState({mainItemClass: "item active"})
+    }
+    login = () => {
+        this.props.login.bind(this, this.state.loginReq, this.state.passReq)
+    }
     state = {
         loginReq: null,
         passReq: null,
+        mainItemClass: "item active",
+        registerItemClass: "item"
     }
 
 
@@ -27,8 +49,8 @@ class Nav extends React.Component {
         if(!localStorage.getItem("token")){
             return(
                 <div className="ui menu">
-                        <a className="item active" href="#">Main</a>
-                        <a className="item" onClick={this.props.register}>Register</a>
+                        <a className={this.state.mainItemClass} href="#" onClick={this.onMainClick}>Main</a>
+                        <a className={this.state.registerItemClass} onClick={this.onRegisterClick}>Register</a>
                     <div className="right menu">
                         <div className="ui transparent icon input">
                             <input type="text" placeholder="Login..." onChange={this.onChangeLoginReq}/>
@@ -45,6 +67,9 @@ class Nav extends React.Component {
                         <a className="item active">Main</a>
                         <a className="item" onClick={this.logout}>Logout</a>
                     <div className="right menu">
+                        <div className="ui transparent icon input">
+                            <a className="item">Session ends at: {this.props.sessionEnds}</a>
+                        </div>
                     <a className="item">Hi {this.props.User.fullName}</a>
                     </div>
                 </div>

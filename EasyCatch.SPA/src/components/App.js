@@ -2,6 +2,8 @@ import React from 'react'
 import Nav from './Nav'
 import Main from './Main'
 import axios from 'axios'
+import jwt from 'jwt-decode'
+
 
 
 class App extends React.Component {
@@ -14,6 +16,7 @@ class App extends React.Component {
  
       componentDidMount(){
         //odświeżanie komponentu
+        localStorage.removeItem("token")
         this.interval = setInterval(() => this.setState({ time: Date.now() }), 100);
     }
     componentWillUnmount() {
@@ -33,9 +36,12 @@ class App extends React.Component {
         .then(result => {
             this.setState({User: result.data.userModel})
             localStorage.setItem("token", result.data.token)
-            this.setState({Token: result.data.token})
+            const decodedToken = jwt(localStorage.getItem("token"))
+            this.setState({UserRole: decodedToken.role})
+            this.setState({expTime: new Date(decodedToken.exp*1000).getHours() + ":" +
+            new Date(decodedToken.exp*1000).getMinutes()})
             this.setState({isLoggedIn: true})
-            this.setState({RegisterMode: !this.state.RegisterMode})
+            this.setState({RegisterMode: false})
         })
         .catch(function (error) {
             if (error.response) {
@@ -62,7 +68,11 @@ class App extends React.Component {
         .then(result => {
             this.setState({User: result.data.userModel})
             localStorage.setItem("token", result.data.token)
-            this.setState({RegisterMode: !this.state.RegisterMode})
+            const decodedToken = jwt(localStorage.getItem("token"))
+            this.setState({UserRole: decodedToken.role})
+            this.setState({expTime: new Date(decodedToken.exp*1000).getHours() + ":" +
+            new Date(decodedToken.exp*1000).getMinutes()})
+            this.setState({RegisterMode: false})
         })
         .catch( (error) => {
             if (error.response) {
@@ -82,22 +92,27 @@ class App extends React.Component {
     moveToRegisterPage = () => {
         this.setState({RegisterMode: !this.state.RegisterMode})
     }
+    returnToMain = () => {
+      this.setState({RegisterMode: false})
+    }
 
     state = {
         User: {
-            login: "Tes",
-            email: "test@email.com",
+            login: "None",
+            email: "none@none.com",
             fullName: "Test Testowski"},
         Token: null,
         Errors: [],
-        RegisterMode: false
+        RegisterMode: false,
+        expTime: null,
+        UserRole: "None"
     }
 
 
     render (){
         return(
          <div className="ui container">
-             <Nav igLoggedIn={this.state.isLoggedIn} User = {this.state.User} login={this.login} register={this.moveToRegisterPage}></Nav>
+             <Nav sessionEnds={this.state.expTime} isInRegisterMode={this.state.RegisterMode} igLoggedIn={this.state.isLoggedIn} User = {this.state.User} login={this.login} register={this.moveToRegisterPage} returnToMain={this.returnToMain}></Nav>
              <Main isInRegisterMode={this.state.RegisterMode} register = {this.register}></Main>
          </div>)
     }
