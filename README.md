@@ -5,12 +5,11 @@ For the first x commits I used different git account - RybczanSodu, idk why.
 
 If you want to run the API project, type dotnet run in EasyCatch.Api/EasyCatch.Web
 
-
+**Using:**
 ```
-Using:
       Controllers:
                 Authentication:
-                               localhost:port/authentication/register - post
+                               localhost:port/api/authentication/register - post
                                                                       - json schema:
                                                                       {
                                                                         "login": "login",
@@ -19,23 +18,23 @@ Using:
                                                                         "name": "Name",
                                                                         "surname": "Surname"
                                                                       }
-                               localhost:port/authentication/login - post
+                               localhost:port/api/authentication/login - post
                                                                    - json schema:
                                                                    {
                                                                    "login": "login",
                                                                    "password": "password"
                                                                    }                                              
                 Order:
-                      localhost:port/order/createorder - no json needed
-                      localhost:port/order/addProduct - patch to add product to order
+                      localhost:port/api/order/createorder - no json needed
+                      localhost:port/api/order/addProduct - patch to add product to order
                                                       - json schema: 
                                                       {
                                                         "orderId": "09e1bc7d-8809-4b5d-b43c-5d9051f57dc7",
                                                         "productId": "ccc42f26-b3a8-4656-beef-71e8d4baeaca"
                                                       }
-                      localhost:port/order/orderId - get to get an order info
+                      localhost:port/api/order/orderId - get to get an order info
                                                    - no json needed
-                      localhost:port/order/setaddress - patch to set order address
+                      localhost:port/api/order/setaddress - patch to set order address
                                                       - json schema:
                                                       {
                                                         "street": "street",
@@ -43,10 +42,10 @@ Using:
                                                         "postcode": "postcode",
                                                         "city", "city"
                                                       }
-                      localhost:port/order/orderId - delete to delete an order
+                      localhost:port/api/order/orderId - delete to delete an order
                                                    - as OrderId type actual orderId
                 Product:
-                      localhost:port/product/add - post to create a new product
+                      localhost:port/api/product/add - post to create a new product
                                                  - json schema: 
                                                  {
                                                     "name": "ProductName",
@@ -55,9 +54,9 @@ Using:
                                                     "quantity": 15
                                                   }
                                                   - also file needed as a Product photo
-                      localhost:port/product/productId - delete to delete a product
+                      localhost:port/api/product/productId - delete to delete a product
                                                      - as productId type actual productId
-                      localhost:port/product/productId - get to get a product
+                      localhost:port/api/product/productId - get to get a product
                                                      - as productId type actual productId
 
 ```
