@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using EasyCatch.Web.Data;
 
 namespace EasyCatch.API
 {
@@ -51,6 +52,8 @@ namespace EasyCatch.API
             });
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostGreSqlConnection"), b => b.MigrationsAssembly("EasyCatch.API")));
+            //Seeder
+            services.AddTransient<Seed>();
             //Validations
             services.AddScoped<UserValidations>();
             services.AddScoped<ProductValidations>();
@@ -78,7 +81,7 @@ namespace EasyCatch.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -88,7 +91,7 @@ namespace EasyCatch.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            seeder.SeedProducts();
             app.UseAuthentication();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseStaticFiles();

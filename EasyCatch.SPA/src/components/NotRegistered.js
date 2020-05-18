@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import Products from './Products'
 
 class NotRegistered extends React.Component{
 
@@ -24,6 +25,7 @@ class NotRegistered extends React.Component{
         return(
             <div className = "ui center aligned segment">
                 <h4>Welcome to my shop, here is a list of items you can buy</h4>
+                <Products products={this.state.products}/>
             </div>
         )
     }
