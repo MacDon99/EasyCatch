@@ -129,7 +129,12 @@ namespace EasyCatch.Infrastructure.Services
             }
         }
 
-        public async Task<List<ProductToBuy>> GetAllProducts()
+        public async Task<List<ProductToBuy>> GetAllProductsRelatedAsync()
+        {
+            return await _productRepository.GetAllProductsRelatedAsync();
+        }
+
+        public async Task<List<Product>> GetAllProducts()
         {
             return await _productRepository.GetAllProducts();
         }

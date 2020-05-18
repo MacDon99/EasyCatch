@@ -13,7 +13,8 @@ namespace EasyCatch.Infrastructure.Repositories
          Task<ProductResponse> DeleteProductByIDAsync(Guid id);
          Task<ProductResponse> GetProductByIDAsync(Guid id);
          Task<Product> GetWholeProductByIdAsync(Guid id);
-         Task<List<ProductToBuy>> GetAllProducts();
+         Task<List<ProductToBuy>> GetAllProductsRelatedAsync();
+         Task<List<Product>> GetAllProducts();
          Task<bool> TakeOneProduct(Guid productId);
          Task<List<ProductResponse>> GetProductsByNameAsync(string name);
          Task<bool> ProductExist(Guid id);

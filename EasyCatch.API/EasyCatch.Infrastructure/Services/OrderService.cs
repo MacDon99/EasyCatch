@@ -65,7 +65,7 @@ namespace EasyCatch.Infrastructure.Services
             }
             
             var orderToReturn = await _orderRepository.GetOrderByIDAsync(new Guid(id));
-            var products = await _productRepository.GetAllProducts();
+            var products = await _productRepository.GetAllProductsRelatedAsync();
             orderToReturn.Order.Products =  products.Where(p => p.OrderId == new Guid(id)).ToList();
             return orderToReturn;
         }

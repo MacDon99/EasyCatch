@@ -1,7 +1,25 @@
 import React from 'react'
+import axios from 'axios'
 
 class NotRegistered extends React.Component{
 
+    getAllProducts()
+    {
+        axios.get("https://localhost:5001/api/product/all")
+        .then(result => {
+            this.setState({products: result.data})
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+    componentDidMount(){
+        this.getAllProducts()
+    }
+
+    state = {
+        products: []
+    }
     render(){
         return(
             <div className = "ui center aligned segment">

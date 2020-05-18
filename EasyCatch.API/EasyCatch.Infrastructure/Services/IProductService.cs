@@ -15,6 +15,7 @@ namespace EasyCatch.Infrastructure.Services
          Task<ProductResponse> DeleteProduct(string id);
          Task<ProductResponse> GetProductByID(string id);
          Task<List<ProductResponse>> GetProductsByName();
-         Task<List<ProductToBuy>> GetAllProducts();
+         Task<List<ProductToBuy>> GetAllProductsRelatedAsync();
+         Task<List<Product>> GetAllProducts();
     }
 }

@@ -83,7 +83,7 @@ namespace EasyCatch.Infrastructure.Repositories
             return await _appDbContext.Products.FindAsync(id) != null;
         }
 
-        public async Task<List<ProductToBuy>> GetAllProducts()
+        public async Task<List<ProductToBuy>> GetAllProductsRelatedAsync()
         {
             return  await _appDbContext.ProductToBuy.ToListAsync();
         }
@@ -93,6 +93,11 @@ namespace EasyCatch.Infrastructure.Repositories
             _appDbContext.Products.FirstOrDefault(p => p.Id == productId).Quantity-=1;
             await _appDbContext.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<Product>> GetAllProducts()
+        {
+            return await _appDbContext.Products.ToListAsync();
         }
     }
 }
