@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EasyCatch.API\EasyCatch.API.csproj" />
+    <ProjectReference Include="..\EasyCatch.API\EasyCatch.Web\EasyCatch.API.csproj" />
   </ItemGroup>
 
 </Project>
