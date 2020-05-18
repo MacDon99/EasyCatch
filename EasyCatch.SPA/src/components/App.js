@@ -73,6 +73,7 @@ class App extends React.Component {
             this.setState({expTime: new Date(decodedToken.exp*1000).getHours() + ":" +
             new Date(decodedToken.exp*1000).getMinutes()})
             this.setState({RegisterMode: false})
+            this.setState({isLoggedIn: true})
         })
         .catch( (error) => {
             if (error.response) {
@@ -89,11 +90,21 @@ class App extends React.Component {
 
           })
     }
+    logout = () => {
+      this.setState({isLoggedIn: false})
+      localStorage.removeItem("token")
+    }
     moveToRegisterPage = () => {
         this.setState({RegisterMode: !this.state.RegisterMode})
     }
     returnToMain = () => {
       this.setState({RegisterMode: false})
+    }
+    AddProductMode = () => {
+      this.setState({AddProductMode: !this.state.AddProductMode})
+    }
+    disableProductMode = () => {
+      this.setState({AddProductMode: false})
     }
 
     state = {
@@ -102,8 +113,10 @@ class App extends React.Component {
             email: "none@none.com",
             fullName: "Test Testowski"},
         Token: null,
+        isLoggedIn: false,
         Errors: [],
         RegisterMode: false,
+        AddProductMode: false,
         expTime: null,
         UserRole: "None"
     }
@@ -112,8 +125,8 @@ class App extends React.Component {
     render (){
         return(
          <div className="ui container">
-             <Nav sessionEnds={this.state.expTime} isInRegisterMode={this.state.RegisterMode} igLoggedIn={this.state.isLoggedIn} User = {this.state.User} login={this.login} register={this.moveToRegisterPage} returnToMain={this.returnToMain}></Nav>
-             <Main isInRegisterMode={this.state.RegisterMode} register = {this.register}></Main>
+             <Nav UserRole={this.state.UserRole} sessionEnds={this.state.expTime} isInRegisterMode={this.state.RegisterMode} AddProductMode={this.AddProductMode} isLoggedIn={this.state.isLoggedIn} User = {this.state.User} login={this.login} register={this.moveToRegisterPage} returnToMain={this.returnToMain} logout={this.logout} disableProductMode={this.disableProductMode}></Nav>
+             <Main isInRegisterMode={this.state.RegisterMode} isInAddingProductMode={this.state.AddProductMode} register = {this.register}></Main>
          </div>)
     }
 }

@@ -14,7 +14,9 @@ class Nav extends React.Component {
         // this.forceUpdate();
     }
     logout = () => {
-        localStorage.removeItem("token");
+        this.props.disableProductMode()
+        this.props.logout()
+        this.setState({mainItemClass: "item active"})
         // this.forceUpdate();
     }
     onRegisterClick = () => {
@@ -32,18 +34,32 @@ class Nav extends React.Component {
     onMainClick = () => {
         this.props.returnToMain()
         this.setState({registerItemClass: "item"})
+        this.setState({addingItemClass: "item"})
         this.setState({mainItemClass: "item active"})
+        this.props.disableProductMode()
     }
     login = event => () => {
-        this.setState({registerItemClass: "item active"})
-        this.setState({mainItemClass: "item"})
+        this.setState({registerItemClass: "item"})
+        this.setState({mainItemClass: "item active"})
         this.props.login(this.state.loginReq, this.state.passReq)
+    }
+    AddProductMode = () => {
+        if(this.state.addingItemClass == "item")
+        {
+            this.setState({addingItemClass: "item active"})
+            this.setState({mainItemClass: "item"})
+        } else {
+            this.setState({addingItemClass: "item"})
+            this.setState({mainItemClass: "item active"})
+        }
+        this.props.AddProductMode()
     }
     state = {
         loginReq: null,
         passReq: null,
         mainItemClass: "item active",
-        registerItemClass: "item"
+        registerItemClass: "item",
+        addingItemClass: "item"
     }
 
 
@@ -63,11 +79,12 @@ class Nav extends React.Component {
                         <a className="item" onClick={this.login()}>Sign In</a>
                     </div>
                 </div>
-            )} else {
+            )} else if (this.props.isLoggedIn == true && this.props.UserRole!="Admin") {
             return(
                 <div className="ui menu">
-                        <a className="item active">Main</a>
+                        <a className="item active" onClick={this.onMainClick}>Main</a>
                         <a className="item" onClick={this.logout}>Logout</a>
+                        <a className="item">Cart: 0</a>
                     <div className="right menu">
                         <div className="ui transparent icon input">
                             <a className="item">Session ends at: {this.props.sessionEnds}</a>
@@ -76,6 +93,20 @@ class Nav extends React.Component {
                     </div>
                 </div>
             )
+    } else {
+        return(
+            <div className="ui menu">
+                        <a className={this.state.mainItemClass} onClick={this.onMainClick}>Main</a>
+                        <a className="item" onClick={this.logout}>Logout</a>
+                        <a className={this.state.addingItemClass} onClick={this.AddProductMode}>Add Product</a>
+                    <div className="right menu">
+                        <div className="ui transparent icon input">
+                            <a className="item">Session ends at: {this.props.sessionEnds}</a>
+                        </div>
+                        <a className="item">Hi {this.props.User.fullName}</a>
+                   </div>
+            </div>
+        )
     }
 }
 }

@@ -19,12 +19,6 @@ class Main extends React.Component {
     componentDidUpdate(){
 
     }
-    isLogged(){
-        if(!localStorage.getItem("token")){
-            
-            this.setState({isLoggedIn: false})
-        }
-    }
     register = (user) => {
         console.log(user)
     }
@@ -38,8 +32,14 @@ class Main extends React.Component {
             <Register register = {this.props.register}/>
         </div>
 
-)} else {
+)} else if (this.props.isInAddingProductMode) {
     return(
+        <div>
+            AddingProductMode
+        </div>
+    )
+} else {
+    return (
         <div>
             <NotRegistered/>
         </div>
