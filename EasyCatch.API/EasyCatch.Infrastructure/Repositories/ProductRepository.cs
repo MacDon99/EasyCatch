@@ -83,9 +83,9 @@ namespace EasyCatch.Infrastructure.Repositories
             return await _appDbContext.Products.FindAsync(id) != null;
         }
 
-        public List<ProductToBuy> GetAllProducts()
+        public async Task<List<ProductToBuy>> GetAllProducts()
         {
-            return  _appDbContext.ProductToBuy.ToList();
+            return  await _appDbContext.ProductToBuy.ToListAsync();
         }
 
         public async Task<bool> TakeOneProduct(Guid productId)

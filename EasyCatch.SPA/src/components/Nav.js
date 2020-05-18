@@ -34,8 +34,10 @@ class Nav extends React.Component {
         this.setState({registerItemClass: "item"})
         this.setState({mainItemClass: "item active"})
     }
-    login = () => {
-        this.props.login.bind(this, this.state.loginReq, this.state.passReq)
+    login = event => () => {
+        this.setState({registerItemClass: "item active"})
+        this.setState({mainItemClass: "item"})
+        this.props.login(this.state.loginReq, this.state.passReq)
     }
     state = {
         loginReq: null,
@@ -58,7 +60,7 @@ class Nav extends React.Component {
                         <div className="ui transparent icon input">
                             <input type="password" placeholder="Password..." onChange={this.onChangePasReq}/>
                         </div>
-                        <a className="item" onClick={this.props.login.bind(this, this.state.loginReq, this.state.passReq)}>Sign In</a>
+                        <a className="item" onClick={this.login()}>Sign In</a>
                     </div>
                 </div>
             )} else {
@@ -70,12 +72,11 @@ class Nav extends React.Component {
                         <div className="ui transparent icon input">
                             <a className="item">Session ends at: {this.props.sessionEnds}</a>
                         </div>
-                    <a className="item">Hi {this.props.User.fullName}</a>
+                        <a className="item">Hi {this.props.User.fullName}</a>
                     </div>
                 </div>
             )
     }
-        
 }
 }
 export default Nav

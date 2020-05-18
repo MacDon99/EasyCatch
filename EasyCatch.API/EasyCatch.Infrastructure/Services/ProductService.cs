@@ -128,5 +128,10 @@ namespace EasyCatch.Infrastructure.Services
                 return null;
             }
         }
+
+        public async Task<List<ProductToBuy>> GetAllProducts()
+        {
+            return await _productRepository.GetAllProducts();
+        }
     }
 }
