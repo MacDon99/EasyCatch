@@ -33,9 +33,12 @@ namespace EasyCatch.API.Infrastructure.Services
         {
             if(user.Login == null || await _userRepository.UserExists(user.Login) || _validations.ValidateUserRegister(user).Count != 0)
             {
+                user.Errors = new List<string>();
                 if(user.Login != null && await _userRepository.UserExists(user.Login))
                     user.Errors.Add("User with that login already exist!");
-                user.Errors = _validations.ValidateUserRegister(user);
+
+                _validations.ValidateUserRegister(user);
+
                 return new UserRegisterResponse() {
                     Success = false,
                     Token = null,
@@ -66,7 +69,7 @@ namespace EasyCatch.API.Infrastructure.Services
             UserLoginResponse userFromDatabase = null;
 
             user.Errors = _validations.ValidateUserLogin(user);
-
+            
             if( user.Errors.Count != 0)
             {
                 return new UserLoginResponse(){

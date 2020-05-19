@@ -3,7 +3,6 @@ import Nav from './Nav'
 import Main from './Main'
 import axios from 'axios'
 import jwt from 'jwt-decode'
-import alertify from 'alertifyjs'
 import Notification, {notify} from '../components/Notifications/index'
  
 
