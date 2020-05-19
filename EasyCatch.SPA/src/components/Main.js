@@ -1,6 +1,6 @@
 import React from 'react'
 import Register from './Register'
-import NotRegistered from './NotRegistered'
+import ItemsList from './ItemsList'
 
 class Main extends React.Component {
 
@@ -29,7 +29,7 @@ class Main extends React.Component {
         if(this.props.isInRegisterMode){
         return (
         <div>
-            <Register register = {this.props.register}/>
+            <Register register = {this.props.register} errors={this.props.errors}/>
         </div>
 
 )} else if (this.props.isInAddingProductMode) {
@@ -41,7 +41,7 @@ class Main extends React.Component {
 } else {
     return (
         <div>
-            <NotRegistered/>
+            <ItemsList/>
         </div>
     )
 }

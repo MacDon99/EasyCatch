@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import Products from './Products'
 
-class NotRegistered extends React.Component{
+class ItemsList extends React.Component{
 
     getAllProducts()
     {
@@ -30,4 +30,4 @@ class NotRegistered extends React.Component{
         )
     }
 }
-export default NotRegistered
+export default ItemsList
