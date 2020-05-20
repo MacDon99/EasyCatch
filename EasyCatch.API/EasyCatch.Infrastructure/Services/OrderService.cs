@@ -20,7 +20,7 @@ namespace EasyCatch.Infrastructure.Services
             _productRepository = productRepository;
             _orderValidations = orderValidations;
         }
-        public Task<OrderResponse> CreateOrderAsync(OrderRequest order)
+        public Task<OrderResponse> CreateOrderAsync()
         {
             Order orderToPass = new Order(){
             };

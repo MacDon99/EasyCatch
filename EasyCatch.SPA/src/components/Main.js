@@ -29,7 +29,7 @@ class Main extends React.Component {
         if(this.props.isInRegisterMode){
         return (
         <div>
-            <Register register = {this.props.register} errors={this.props.errors}/>
+            <Register register = {this.props.register} errors={this.props.errors} removeErrors={this.props.removeErrors}/>
         </div>
 
 )} else if (this.props.isInAddingProductMode) {
@@ -41,7 +41,7 @@ class Main extends React.Component {
 } else {
     return (
         <div>
-            <ItemsList/>
+            <ItemsList products={this.props.products} addToCart={this.props.addToCart}/>
         </div>
     )
 }

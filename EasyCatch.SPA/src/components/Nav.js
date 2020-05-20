@@ -1,74 +1,98 @@
 import React from 'react'
+import '../nav.css'
 
 class Nav extends React.Component {
 
+    componentDidUpdate(){
+        if(this.props.isLoggedIn && this.state.mainItemClass !== "item active" && this.state.addingItemClass !== "item active"){
+            this.setState({
+                mainItemClass: "item active"
+            })
+        }
+    }
 
     onChangeLoginReq = (event) => {
         this.setState({loginReq: event.target.value})
     }
+
     onChangePasReq = (event) => {
         this.setState({passReq: event.target.value})
     }
-    login = () => {
-        localStorage.setItem("token", "token")
-        // this.forceUpdate();
-    }
+
     logout = () => {
         this.props.disableProductMode()
         this.props.logout()
-        this.setState({mainItemClass: "item active"})
-        // this.forceUpdate();
-    }
+        this.setState({
+            mainItemClass: "item active",
+            registerItemClass: "item",
+            addingItemClass: "item"
+    })}
+
     onRegisterClick = () => {
         this.props.register()
-        if(this.state.registerItemClass == "item")
+        if(this.state.registerItemClass === "item")
         {
-            this.setState({registerItemClass: "item active"})
-            this.setState({mainItemClass: "item"})
+            this.setState({
+                mainItemClass: "item",
+                registerItemClass: "item active",
+                addingItemClass: "item"
+        })
         } else {
-            this.setState({registerItemClass: "item"})
-            this.setState({mainItemClass: "item active"})
+            this.setState({
+                mainItemClass: "item active",
+                registerItemClass: "item",
+                addingItemClass: "item"
+        })
         }
 
     }
     onMainClick = () => {
         this.props.returnToMain()
-        this.setState({registerItemClass: "item"})
-        this.setState({addingItemClass: "item"})
-        this.setState({mainItemClass: "item active"})
+        this.setState({
+            mainItemClass: "item active",
+            registerItemClass: "item",
+            addingItemClass: "item"
+    })
         this.props.disableProductMode()
     }
+
     login = event => () => {
-        this.setState({registerItemClass: "item"})
-        this.setState({mainItemClass: "item active"})
         this.props.login(this.state.loginReq, this.state.passReq)
     }
+
     AddProductMode = () => {
-        if(this.state.addingItemClass == "item")
+        if(this.state.addingItemClass === "item")
         {
-            this.setState({addingItemClass: "item active"})
-            this.setState({mainItemClass: "item"})
+            this.setState({
+                mainItemClass: "item",
+                registerItemClass: "item",
+                addingItemClass: "item active"
+        })
         } else {
-            this.setState({addingItemClass: "item"})
-            this.setState({mainItemClass: "item active"})
+            this.setState({
+                mainItemClass: "item active",
+                registerItemClass: "item",
+                addingItemClass: "item"
+        })
         }
         this.props.AddProductMode()
     }
+
     state = {
         loginReq: null,
         passReq: null,
         mainItemClass: "item active",
         registerItemClass: "item",
-        addingItemClass: "item"
+        addingItemClass: "item",
+        itemsQuantity: this.props.Order == null? 0: this.props.Order.products.length
     }
 
-
     render(){
-        if(!localStorage.getItem("token")){
+        if(!this.props.isLoggedIn){
             return(
                 <div className="ui menu">
-                        <a className={this.state.mainItemClass} href="#" onClick={this.onMainClick}>Main</a>
-                        <a className={this.state.registerItemClass} onClick={this.onRegisterClick}>Register</a>
+                        <div className={this.state.mainItemClass} href="#" onClick={this.onMainClick}>Main</div>
+                        <div className={this.state.registerItemClass} onClick={this.onRegisterClick}>Register</div>
                     <div className="right menu">
                         <div className="ui transparent icon input">
                             <input type="text" placeholder="Login..." onChange={this.onChangeLoginReq}/>
@@ -76,34 +100,34 @@ class Nav extends React.Component {
                         <div className="ui transparent icon input">
                             <input type="password" placeholder="Password..." onChange={this.onChangePasReq}/>
                         </div>
-                        <a className="item" onClick={this.login()}>Sign In</a>
+                        <div className="item" onClick={this.login()}>Sign In</div>
                     </div>
                 </div>
-            )} else if (this.props.isLoggedIn == true && this.props.UserRole!="Admin") {
+            )} else if (this.props.isLoggedIn === true && this.props.UserRole!=="Admin") {
             return(
                 <div className="ui menu">
-                        <a className="item active" onClick={this.onMainClick}>Main</a>
-                        <a className="item" onClick={this.logout}>Logout</a>
-                        <a className="item">Cart: 0</a>
+                        <div className="item active" onClick={this.onMainClick}>Main</div>
+                        <div className="item" onClick={this.logout}>Logout</div>
+                        <div className="item"><i className="ui cart icon"/>Cart: {this.props.itemsQuantity}</div>
                     <div className="right menu">
                         <div className="ui transparent icon input">
-                            <a className="item">Session ends at: {this.props.sessionEnds}</a>
+                            <div className="item">Session ends at: {this.props.sessionEnds}</div>
                         </div>
-                        <a className="item">Hi {this.props.User.fullName}</a>
+                        <div className="item">Hi {this.props.User.fullName}</div>
                     </div>
                 </div>
             )
     } else {
         return(
             <div className="ui menu">
-                        <a className={this.state.mainItemClass} onClick={this.onMainClick}>Main</a>
-                        <a className="item" onClick={this.logout}>Logout</a>
-                        <a className={this.state.addingItemClass} onClick={this.AddProductMode}>Add Product</a>
+                        <div className={this.state.mainItemClass} onClick={this.onMainClick}>Main</div>
+                        <div className="item" onClick={this.logout}>Logout</div>
+                        <div className={this.state.addingItemClass} onClick={this.AddProductMode}>Add Product</div>
                     <div className="right menu">
                         <div className="ui transparent icon input">
-                            <a className="item">Session ends at: {this.props.sessionEnds}</a>
+                            <div className="item">Session ends at: {this.props.sessionEnds}</div>
                         </div>
-                        <a className="item">Hi {this.props.User.fullName}</a>
+                        <div className="item">Hi {this.props.User.fullName}</div>
                    </div>
             </div>
         )

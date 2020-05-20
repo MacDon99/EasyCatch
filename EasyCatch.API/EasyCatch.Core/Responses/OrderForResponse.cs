@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EasyCatch.Core.Models;
 
@@ -5,6 +6,7 @@ namespace EasyCatch.Core.Responses
 {
     public class OrderForResponse
     {
+        public Guid Id { get; set; }
         public List<ProductToBuy> Products { get; set; }
         public decimal TotalPrice { get; set; }
         public string Street { get; set; }

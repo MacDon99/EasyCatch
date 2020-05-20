@@ -25,6 +25,7 @@ namespace EasyCatch.Infrastructure.Repositories
                 Message = "You have successfully created a new order.",
                 Errors = null,
                 Order = new OrderForResponse(){
+                    Id = order.Id,
                     Products = order.Products,
                     TotalPrice = order.TotalPrice,
                     Street = order.Street,
@@ -97,6 +98,7 @@ namespace EasyCatch.Infrastructure.Repositories
                 Message = "You updated the order with following data.",
                 Errors = null,
                 Order = new OrderForResponse(){
+                    Id = order.Id,
                     Products = order.Products,
                     TotalPrice = order.TotalPrice,
                     Street = order.Street,

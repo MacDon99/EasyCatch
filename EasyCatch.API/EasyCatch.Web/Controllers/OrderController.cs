@@ -25,10 +25,10 @@ namespace EasyCatch.API.Web.Controllers
         {
             _orderService = orderService;
         }
-        [HttpPost("createorder")]
-        public async Task<IActionResult> CreateOrder(OrderRequest order)
+        [HttpGet("createorder")]
+        public async Task<IActionResult> CreateOrder()
         {
-            return StatusCode(201, await _orderService.CreateOrderAsync(order));
+            return StatusCode(201, await _orderService.CreateOrderAsync());
         }
         [HttpPatch("addProduct")]
         public async Task<IActionResult> AddProductToOrder(AddProductToOrderRequest request)

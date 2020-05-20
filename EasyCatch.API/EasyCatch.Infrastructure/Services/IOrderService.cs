@@ -7,7 +7,7 @@ namespace EasyCatch.Infrastructure.Services
 {
     public interface IOrderService
     {
-        Task<OrderResponse> CreateOrderAsync(OrderRequest order);
+        Task<OrderResponse> CreateOrderAsync();
          Task<OrderResponse> GetOrderByIDAsync(string id);
          Task<OrderResponse> DeleteOrder(string id);
          Task<OrderResponse> AddProductToOrderAsync(string orderId, string productId);

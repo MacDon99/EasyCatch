@@ -6,7 +6,7 @@ const Container = styled.div`
 background-color: ${props => props.type};
 color: white;
 padding: 16px;
-position: absolute;
+position: fixed;
 top: ${props => props.top}px;
 right:16px;
 z-index: 999;

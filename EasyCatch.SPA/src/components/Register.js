@@ -18,9 +18,7 @@ class Register extends React.Component{
     onLastNameChange = (event) => {
         this.setState({lastNameReq: event.target.value})
     }
-    register = () => {
-
-    }
+    
     state = {
         loginReq: null,
         passwordReq: null,
@@ -38,7 +36,7 @@ class Register extends React.Component{
             name: this.state.firstNameReq,
             surname: this.state.lastNameReq
         }
-        if(this.props.errors.length == 0)
+        if(this.props.errors.length === 0)
         {
         return(
             <div className = "ui center aligned segment">
@@ -130,7 +128,7 @@ class Register extends React.Component{
                     Register
                 </button>
                 <div className="ui negative message">
-                    <i className="close icon"></i>
+                    <i className="close icon" onClick={this.props.removeErrors}></i>
                     <div className="header">
                         <h3>Registration failed because of the following errors</h3>
                     </div>
