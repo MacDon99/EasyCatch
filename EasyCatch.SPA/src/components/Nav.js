@@ -87,13 +87,14 @@ class Nav extends React.Component {
         this.props.AddProductMode()
     }
     enableCartMode = () => {
-        if(!this.props.isInCartMode){
+        if(this.state.cartItemClass == "item" ){
             this.setState({
                 mainItemClass: "item",
                 registerItemClass: "item",
                 addingItemClass: "item",
                 cartItemClass: "item active",
             })
+            this.props.enableCartView()
         } else {
             this.setState({
                 mainItemClass: "item active",
@@ -101,8 +102,8 @@ class Nav extends React.Component {
                 addingItemClass: "item",
                 cartItemClass: "item",
             })
+            this.props.returnToMain()
         }
-        this.props.enableCartView()
     }
 
     state = {
@@ -151,6 +152,7 @@ class Nav extends React.Component {
                         <div className={this.state.mainItemClass} onClick={this.onMainClick}>Main</div>
                         <div className="item" onClick={this.logout}>Logout</div>
                         <div className={this.state.addingItemClass} onClick={this.AddProductMode}>Add Product</div>
+                        <div className={this.state.cartItemClass} onClick={this.enableCartMode}><i className="ui cart icon"/>Cart: {this.props.itemsQuantity}</div>
                     <div className="right menu">
                         <div className="ui transparent icon input">
                             <div className="item">Session ends at: {this.props.sessionEnds}</div>

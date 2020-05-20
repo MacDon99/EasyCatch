@@ -14,7 +14,6 @@ class App extends React.Component {
         super(props);
         this.login = this.login.bind(this);
         this.register = this.register.bind(this);
-
       }
       
       componentDidMount(){
@@ -35,8 +34,6 @@ class App extends React.Component {
             "name": user.name,
             "surname": user.surname
         }
-        
-        console.log(userToRegister)
         axios.post("https://localhost:5001/api/authentication/register", user)
         .then(result => {
             this.setState({User: result.data.userModel})
@@ -117,7 +114,10 @@ class App extends React.Component {
     }
     returnToMain = () => {
       this.setState({RegisterMode: false})
+      this.setState({CartMode: false})
+      this.setState({AddProductMode: false})
       this.setState({Errors: []})
+      this.getAllProducts()
     }
     AddProductMode = () => {
       this.setState({AddProductMode: !this.state.AddProductMode})
@@ -206,7 +206,7 @@ class App extends React.Component {
       this.setState({
         RegisterMode: false,
         AddProductMode: false,
-        CartMode: !this.state.CartMode
+        CartMode: true
       })
     }
     disableCartView = () => {
@@ -215,7 +215,6 @@ class App extends React.Component {
         AddProductMode: false,
         CartMode: false
       })
-      console.log(this.state.Order)
     }
     completeOrder = () => {
       this.setState({
