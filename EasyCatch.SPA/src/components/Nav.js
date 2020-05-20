@@ -87,7 +87,7 @@ class Nav extends React.Component {
         this.props.AddProductMode()
     }
     enableCartMode = () => {
-        if(this.state.cartItemClass == "item" ){
+        if(this.state.cartItemClass === "item" ){
             this.setState({
                 mainItemClass: "item",
                 registerItemClass: "item",

@@ -27,13 +27,6 @@ class App extends React.Component {
         clearInterval(this.interval);
     }
       register = (user) => {
-        const userToRegister = {
-            "login": user.login,
-            "password": user.password,
-            "email": user.email,
-            "name": user.name,
-            "surname": user.surname
-        }
         axios.post("https://localhost:5001/api/authentication/register", user)
         .then(result => {
             this.setState({User: result.data.userModel})
