@@ -14,7 +14,6 @@ class App extends React.Component {
         super(props);
         this.login = this.login.bind(this);
         this.register = this.register.bind(this);
-        // module.exports = () => <Alertify />;
 
       }
       
@@ -86,9 +85,7 @@ class App extends React.Component {
             new Date(decodedToken.exp*1000).getMinutes()})
             this.setState({RegisterMode: false})
             this.setState({isLoggedIn: true})
-            // notify('Success')
               notify('You have been logged in', 'success')
-            // alertify.alert('Alert Title')
         })
         .catch( (error) => {
             if (error.response) {
@@ -154,7 +151,8 @@ class App extends React.Component {
             })
             .then(result => {
               this.setState({
-                Order: result.data.order
+                Order: result.data.order,
+                orderId: result.data.order.id
               })
               axios.patch("https:localhost:5001/api/order/addProduct", {
                 orderId: this.state.Order.id,
@@ -204,6 +202,28 @@ class App extends React.Component {
         return this.state.Order.products.length
       }
     }
+    enableCartView = () => {
+      this.setState({
+        RegisterMode: false,
+        AddProductMode: false,
+        CartMode: !this.state.CartMode
+      })
+    }
+    disableCartView = () => {
+      this.setState({
+        RegisterMode: false,
+        AddProductMode: false,
+        CartMode: false
+      })
+      console.log(this.state.Order)
+    }
+    completeOrder = () => {
+      this.setState({
+        Order: null,
+        orderId: 0,
+        itemsQuantity: 0
+      })
+    }
 
     state = {
         User: {
@@ -216,10 +236,12 @@ class App extends React.Component {
         Errors: [],
         RegisterMode: false,
         AddProductMode: false,
+        CartMode: false,
         expTime: null,
         UserRole: "None",
         Order: null,
-        itemsQuantity: 0
+        itemsQuantity: 0,
+        orderId: 0
     }
 
 
@@ -227,8 +249,8 @@ class App extends React.Component {
         return(
          <div className="ui container">
             <Notification/>
-             <Nav itemsQuantity={this.state.itemsQuantity} UserRole={this.state.UserRole} sessionEnds={this.state.expTime} isInRegisterMode={this.state.RegisterMode} AddProductMode={this.AddProductMode} isLoggedIn={this.state.isLoggedIn} User = {this.state.User} login={this.login} register={this.moveToRegisterPage} returnToMain={this.returnToMain} logout={this.logout} disableProductMode={this.disableProductMode}></Nav>
-             <Main products={this.state.products} addToCart={this.addToCart} removeErrors={this.removeErrors} isInRegisterMode={this.state.RegisterMode} isInAddingProductMode={this.state.AddProductMode} register = {this.register} errors = {this.state.Errors}></Main>
+             <Nav disableCartMode={this.disableCartView} isInCartMode={this.state.CartMode} enableCartView = {this.enableCartView} itemsQuantity={this.state.itemsQuantity} UserRole={this.state.UserRole} sessionEnds={this.state.expTime} isInRegisterMode={this.state.RegisterMode} AddProductMode={this.AddProductMode} isLoggedIn={this.state.isLoggedIn} User = {this.state.User} login={this.login} register={this.moveToRegisterPage} returnToMain={this.returnToMain} logout={this.logout} disableProductMode={this.disableProductMode}></Nav>
+             <Main completeOrder={this.completeOrder} OrderId = {this.state.orderId} isInCartMode={this.state.CartMode} products={this.state.products} addToCart={this.addToCart} removeErrors={this.removeErrors} isInRegisterMode={this.state.RegisterMode} isInAddingProductMode={this.state.AddProductMode} register = {this.register} errors = {this.state.Errors}></Main>
          </div>)
     }
 }

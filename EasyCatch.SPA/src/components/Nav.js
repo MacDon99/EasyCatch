@@ -5,10 +5,12 @@ class Nav extends React.Component {
 
     componentDidUpdate(){
         if(this.props.isLoggedIn && this.state.mainItemClass !== "item active" && this.state.addingItemClass !== "item active"){
+            if(!this.props.isInCartMode){
             this.setState({
                 mainItemClass: "item active"
             })
         }
+    }
     }
 
     onChangeLoginReq = (event) => {
@@ -25,7 +27,8 @@ class Nav extends React.Component {
         this.setState({
             mainItemClass: "item active",
             registerItemClass: "item",
-            addingItemClass: "item"
+            addingItemClass: "item",
+            cartItemClass: "item",
     })}
 
     onRegisterClick = () => {
@@ -35,13 +38,15 @@ class Nav extends React.Component {
             this.setState({
                 mainItemClass: "item",
                 registerItemClass: "item active",
-                addingItemClass: "item"
+                addingItemClass: "item",
+                cartItemClass: "item",
         })
         } else {
             this.setState({
                 mainItemClass: "item active",
                 registerItemClass: "item",
-                addingItemClass: "item"
+                addingItemClass: "item",
+                cartItemClass: "item"
         })
         }
 
@@ -51,9 +56,11 @@ class Nav extends React.Component {
         this.setState({
             mainItemClass: "item active",
             registerItemClass: "item",
-            addingItemClass: "item"
+            addingItemClass: "item",
+            cartItemClass: "item",
     })
         this.props.disableProductMode()
+        this.props.disableCartMode()
     }
 
     login = event => () => {
@@ -66,16 +73,36 @@ class Nav extends React.Component {
             this.setState({
                 mainItemClass: "item",
                 registerItemClass: "item",
-                addingItemClass: "item active"
+                addingItemClass: "item active",
+                cartItemClass: "item",
         })
         } else {
             this.setState({
                 mainItemClass: "item active",
                 registerItemClass: "item",
-                addingItemClass: "item"
+                addingItemClass: "item",
+                cartItemClass: "item",
         })
         }
         this.props.AddProductMode()
+    }
+    enableCartMode = () => {
+        if(!this.props.isInCartMode){
+            this.setState({
+                mainItemClass: "item",
+                registerItemClass: "item",
+                addingItemClass: "item",
+                cartItemClass: "item active",
+            })
+        } else {
+            this.setState({
+                mainItemClass: "item active",
+                registerItemClass: "item",
+                addingItemClass: "item",
+                cartItemClass: "item",
+            })
+        }
+        this.props.enableCartView()
     }
 
     state = {
@@ -84,6 +111,7 @@ class Nav extends React.Component {
         mainItemClass: "item active",
         registerItemClass: "item",
         addingItemClass: "item",
+        cartItemClass: "item",
         itemsQuantity: this.props.Order == null? 0: this.props.Order.products.length
     }
 
@@ -106,9 +134,9 @@ class Nav extends React.Component {
             )} else if (this.props.isLoggedIn === true && this.props.UserRole!=="Admin") {
             return(
                 <div className="ui menu">
-                        <div className="item active" onClick={this.onMainClick}>Main</div>
+                        <div className={this.state.mainItemClass} onClick={this.onMainClick}>Main</div>
                         <div className="item" onClick={this.logout}>Logout</div>
-                        <div className="item"><i className="ui cart icon"/>Cart: {this.props.itemsQuantity}</div>
+                        <div className={this.state.cartItemClass} onClick={this.enableCartMode}><i className="ui cart icon"/>Cart: {this.props.itemsQuantity}</div>
                     <div className="right menu">
                         <div className="ui transparent icon input">
                             <div className="item">Session ends at: {this.props.sessionEnds}</div>

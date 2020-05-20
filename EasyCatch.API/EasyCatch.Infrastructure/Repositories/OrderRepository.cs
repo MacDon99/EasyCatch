@@ -64,6 +64,7 @@ namespace EasyCatch.Infrastructure.Repositories
                 Message = "You got the following order",
                 Errors = null,
                 Order = new OrderForResponse(){
+                    Id = orderFromDatabase.Id,
                     Products = orderFromDatabase.Products,
                     TotalPrice = orderFromDatabase.TotalPrice,
                     Street = orderFromDatabase.Street,
@@ -81,9 +82,9 @@ namespace EasyCatch.Infrastructure.Repositories
             
             order.Products = _appDbContext.ProductToBuy.Where(p => p.OrderId == orderId).ToList();
 
-             if(order.Products.Any(p => p.Name == product.Name))
+             if(order.Products.Any(p => p.Description == product.Description))
              {
-                order.Products.FirstOrDefault(p => p.Name == product.Name).Quantity +=1;
+                order.Products.FirstOrDefault(p => p.Description == product.Description).Quantity +=1;
              }
              else
              {

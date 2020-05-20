@@ -96,6 +96,8 @@ namespace EasyCatch.Infrastructure.Services
             return await _orderRepository.AddProductToOrderAsync(new Guid(orderId), new ProductToBuy(){
                 Name = productx.Product.Name,
                 Price = productx.Product.Price,
+                PhotoUrl = productx.Product.PhotoUrl,
+                Description = productx.Product.Description,
                 Quantity = 1
             }, new Guid(productId));
         }

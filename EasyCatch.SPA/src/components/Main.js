@@ -1,6 +1,7 @@
 import React from 'react'
 import Register from './Register'
 import ItemsList from './ItemsList'
+import Cart from './Cart'
 
 class Main extends React.Component {
 
@@ -36,6 +37,12 @@ class Main extends React.Component {
     return(
         <div>
             AddingProductMode
+        </div>
+    )
+} else if(this.props.isInCartMode){
+    return (
+        <div>
+            <Cart completeOrder={this.props.completeOrder} OrderId={this.props.OrderId}/>
         </div>
     )
 } else {
