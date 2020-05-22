@@ -3,8 +3,14 @@ import axios from 'axios'
 import Order from './Order'
 import { notify } from '../../Notifications'
 export class Cart extends Component {
+    // componentDidMount(){
+    //     this.interval = setInterval(() => this.setState({ time: Date.now() }), 100);
+    // }
+    // componentWillUnmount(){
+    //     clearInterval(this.interval);
+    // }
 
-    componentDidUpdate(){
+    componentDidMount(){
         if(this.props.OrderId !== 0){
             if(this.state.products.length === 0){
                 this.getOrder()

@@ -52,6 +52,7 @@ export class AddProduct extends Component {
         })
         .then(result => {
             notify("You have added a new product!","success")
+            this.props.loadNewListOfProducts()
         })
         .catch((err) => {
         })

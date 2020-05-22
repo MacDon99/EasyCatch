@@ -18,7 +18,6 @@ class Register extends React.Component{
     onLastNameChange = (event) => {
         this.setState({lastNameReq: event.target.value})
     }
-    
     state = {
         loginReq: null,
         passwordReq: null,

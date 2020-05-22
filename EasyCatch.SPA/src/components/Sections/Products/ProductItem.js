@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 
 export default class ProductItem extends Component {
-    componentDidUpdate(){
-        // console.log(this.props.product)
-    }
+
     render() {
         if(this.props.product.photoUrl[0] !== "h")
         {

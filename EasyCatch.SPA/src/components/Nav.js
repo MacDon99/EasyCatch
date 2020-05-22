@@ -1,18 +1,31 @@
 import React from 'react'
 import '../nav.css'
+import { Link, Redirect} from 'react-router-dom'
+
 
 class Nav extends React.Component {
 
     componentDidUpdate(){
-        if(this.props.isLoggedIn && this.state.mainItemClass !== "item active" && this.state.addingItemClass !== "item active"){
-            if(!this.props.isInCartMode){
+        if(this.state.redirect){
             this.setState({
-                mainItemClass: "item active"
+                redirect: false
             })
         }
+        // console.log("Redirect: " + this.state.redirect)
+        // console.log("LoggedIn: " + this.props.isLoggedIn)
+        // console.log("MainItemClass: " + this.state.mainItemClass)
+        // console.log("LoginChecker: " + this.state.loginChecker)
+        if(this.props.isLoggedIn && this.state.mainItemClass === "item" && this.state.loginChecker){
+            this.setState({
+                mainItemClass: "item active",
+                registerItemClass: "item",
+                addingItemClass: "item",
+                cartItemClass: "item",
+                loginChecker: false,
+                redirect: true,
+        })
+        }
     }
-    }
-
     onChangeLoginReq = (event) => {
         this.setState({loginReq: event.target.value})
     }
@@ -22,17 +35,16 @@ class Nav extends React.Component {
     }
 
     logout = () => {
-        this.props.disableProductMode()
         this.props.logout()
         this.setState({
             mainItemClass: "item active",
             registerItemClass: "item",
             addingItemClass: "item",
             cartItemClass: "item",
+            loginChecker: true
     })}
 
     onRegisterClick = () => {
-        this.props.register()
         if(this.state.registerItemClass === "item")
         {
             this.setState({
@@ -41,26 +53,15 @@ class Nav extends React.Component {
                 addingItemClass: "item",
                 cartItemClass: "item",
         })
-        } else {
-            this.setState({
-                mainItemClass: "item active",
-                registerItemClass: "item",
-                addingItemClass: "item",
-                cartItemClass: "item"
-        })
         }
-
     }
     onMainClick = () => {
-        this.props.returnToMain()
         this.setState({
             mainItemClass: "item active",
             registerItemClass: "item",
             addingItemClass: "item",
             cartItemClass: "item",
     })
-        this.props.disableProductMode()
-        this.props.disableCartMode()
     }
 
     login = event => () => {
@@ -75,17 +76,10 @@ class Nav extends React.Component {
                 registerItemClass: "item",
                 addingItemClass: "item active",
                 cartItemClass: "item",
-        })
-        } else {
-            this.setState({
-                mainItemClass: "item active",
-                registerItemClass: "item",
-                addingItemClass: "item",
-                cartItemClass: "item",
-        })
+                loginChecker: false
+            })
         }
-        this.props.AddProductMode()
-    }
+}
     enableCartMode = () => {
         if(this.state.cartItemClass === "item" ){
             this.setState({
@@ -93,17 +87,11 @@ class Nav extends React.Component {
                 registerItemClass: "item",
                 addingItemClass: "item",
                 cartItemClass: "item active",
+                loginChecker: false
             })
-            this.props.enableCartView()
-        } else {
-            this.setState({
-                mainItemClass: "item active",
-                registerItemClass: "item",
-                addingItemClass: "item",
-                cartItemClass: "item",
-            })
-            this.props.returnToMain()
         }
+            //  this.props.enableCartView()
+        //  }
     }
 
     state = {
@@ -113,15 +101,26 @@ class Nav extends React.Component {
         registerItemClass: "item",
         addingItemClass: "item",
         cartItemClass: "item",
+        redirect: false,
+        loginChecker: true,
         itemsQuantity: this.props.Order == null? 0: this.props.Order.products.length
     }
 
     render(){
-        if(!this.props.isLoggedIn){
+        if(this.state.redirect){
+            return(
+            <Redirect to="/"/>
+            )
+        }
+         if(!this.props.isLoggedIn){
             return(
                 <div className="ui menu">
-                        <div className={this.state.mainItemClass} href="#" onClick={this.onMainClick}>Main</div>
-                        <div className={this.state.registerItemClass} onClick={this.onRegisterClick}>Register</div>
+                        <Link to="/">
+                            <div className={this.state.mainItemClass} href="#" onClick={this.onMainClick}>Main</div>
+                        </Link>
+                        <Link to="/Register">
+                            <div className={this.state.registerItemClass} onClick={this.onRegisterClick}>Register</div>
+                        </Link>
                     <div className="right menu">
                         <div className="ui transparent icon input">
                             <input type="text" placeholder="Login..." onChange={this.onChangeLoginReq}/>
@@ -129,15 +128,23 @@ class Nav extends React.Component {
                         <div className="ui transparent icon input">
                             <input type="password" placeholder="Password..." onChange={this.onChangePasReq}/>
                         </div>
-                        <div className="item" onClick={this.login()}>Sign In</div>
+                        {/* <Link to="/"> */}
+                            <div className="item" onClick={this.login()}>Sign In</div>
+                        {/* </Link> */}
                     </div>
                 </div>
             )} else if (this.props.isLoggedIn === true && this.props.UserRole!=="Admin") {
             return(
                 <div className="ui menu">
+                    <Link to="/">
                         <div className={this.state.mainItemClass} onClick={this.onMainClick}>Main</div>
-                        <div className="item" onClick={this.logout}>Logout</div>
-                        <div className={this.state.cartItemClass} onClick={this.enableCartMode}><i className="ui cart icon"/>Cart: {this.props.itemsQuantity}</div>
+                    </Link>
+                        <Link to="/">
+                            <div className="item" onClick={this.logout}>Logout</div>
+                        </Link>
+                        <Link to="/Cart">
+                            <div className={this.state.cartItemClass} onClick={this.enableCartMode}><i className="ui cart icon"/>Cart: {this.props.itemsQuantity}</div>
+                        </Link>
                     <div className="right menu">
                         <div className="ui transparent icon input">
                             <div className="item">Session ends at: {this.props.sessionEnds}</div>
@@ -146,22 +153,31 @@ class Nav extends React.Component {
                     </div>
                 </div>
             )
-    } else {
+    } else if(this.props.isLoggedIn === true && this.props.UserRole === "Admin") {
         return(
             <div className="ui menu">
-                        <div className={this.state.mainItemClass} onClick={this.onMainClick}>Main</div>
-                        <div className="item" onClick={this.logout}>Logout</div>
-                        <div className={this.state.addingItemClass} onClick={this.AddProductMode}>Add Product</div>
-                        <div className={this.state.cartItemClass} onClick={this.enableCartMode}><i className="ui cart icon"/>Cart: {this.props.itemsQuantity}</div>
-                    <div className="right menu">
-                        <div className="ui transparent icon input">
-                            <div className="item">Session ends at: {this.props.sessionEnds}</div>
-                        </div>
-                        <div className="item">Hi {this.props.User.fullName}</div>
-                   </div>
+            <Link to="/">
+                <div className={this.state.mainItemClass} onClick={this.onMainClick}>Main</div>
+            </Link>
+                <Link to="/">
+                    <div className="item" onClick={this.logout}>Logout</div>
+                </Link>
+                <Link to="/AddProduct">
+                    <div className={this.state.addingItemClass} onClick={this.AddProductMode}>Add Product</div>
+                </Link>
+                <Link to="/Cart">
+                    <div className={this.state.cartItemClass} onClick={this.enableCartMode}><i className="ui cart icon"/>Cart: {this.props.itemsQuantity}</div>
+                </Link>
+            <div className="right menu">
+                <div className="ui transparent icon input">
+                    <div className="item">Session ends at: {this.props.sessionEnds}</div>
+                </div>
+                <div className="item">Hi {this.props.User.fullName}</div>
             </div>
+        </div>
         )
     }
 }
 }
 export default Nav
+

@@ -53,7 +53,7 @@ namespace EasyCatch.Infrastructure.Services
 
         public async Task<ProductResponse> DeleteProduct(string id)
         {
-            if(! isValidId(id)! || await _productRepository.ProductExist(new Guid(id)))
+            if(! isValidId(id) || ! await _productRepository.ProductExist(new Guid(id)))
                 return new ProductResponse(){
                     Success = false,
                     Message = "Product cannot be found"

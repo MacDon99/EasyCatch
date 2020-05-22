@@ -4,6 +4,7 @@ import Main from './Main'
 import axios from 'axios'
 import jwt from 'jwt-decode'
 import Notification, {notify} from '../components/Notifications/index'
+import {BrowserRouter as Router, Redirect} from 'react-router-dom'
  
 
 
@@ -19,30 +20,49 @@ class App extends React.Component {
       componentDidMount(){
         //odświeżanie komponentu
         localStorage.removeItem("token")
-        this.interval = setInterval(() => this.setState({ time: Date.now() }), 100);
+         //this.interval = setInterval(() => this.setState({ time: Date.now() }), 100);
         this.getAllProducts()
+        // this.returnToMain()
+        this.setState({
+          User: {
+            login: "None",
+            email: "none@none.com",
+            fullName: "Test Testowski"},
+            Token: null,
+            isLoggedIn: false,
+            Errors: [],
+            RegisterMode: false,
+            AddProductMode: false,
+            CartMode: false,
+            expTime: null,
+            UserRole: "None",
+            Order: null,
+            itemsQuantity: 0,
+            orderId: 0,
+            redirect: true
+        })
     }
     componentWillUnmount() {
         //zwolnienie pamięci
-        clearInterval(this.interval);
+         //clearInterval(this.interval);
     }
       register = (user) => {
         axios.post("https://localhost:5001/api/authentication/register", user)
         .then(result => {
-            this.setState({User: result.data.userModel})
             localStorage.setItem("token", result.data.token)
             const decodedToken = jwt(localStorage.getItem("token"))
-            this.setState({UserRole: decodedToken.role})
-            this.setState({expTime: new Date(decodedToken.exp*1000).getHours() + ":" +
-            new Date(decodedToken.exp*1000).getMinutes()})
-            this.setState({isLoggedIn: true})
-            this.setState({RegisterMode: false})
+            this.setState({
+              User: result.data.userModel,
+              UserRole: decodedToken.role,
+              expTime: new Date(decodedToken.exp*1000).getHours() + ":" +
+                       new Date(decodedToken.exp*1000).getMinutes(),
+              isLoggedIn: true,
+              RegisterMode: false
+            })
             notify("You have succesfully registered a new account", "success")
         })
         .catch( (error) => {
             if (error.response) {
-              // Request made and server responded
-              // console.log(error.response.data.errors);
               this.setState({
                 Errors: error.response.data.errors
               })
@@ -97,26 +117,30 @@ class App extends React.Component {
           })
     }
     logout = () => {
-      this.setState({isLoggedIn: false})
       localStorage.removeItem("token")
       notify("You have been logged out", "success")
-      this.setState({Errors: []})
-    }
-    moveToRegisterPage = () => {
-        this.setState({RegisterMode: !this.state.RegisterMode})
-    }
-    returnToMain = () => {
-      this.setState({RegisterMode: false})
-      this.setState({CartMode: false})
-      this.setState({AddProductMode: false})
-      this.setState({Errors: []})
-      this.getAllProducts()
-    }
-    AddProductMode = () => {
-      this.setState({AddProductMode: !this.state.AddProductMode})
-    }
-    disableProductMode = () => {
-      this.setState({AddProductMode: false})
+      this.setState({
+        User: {
+          login: "None",
+          email: "none@none.com",
+          fullName: "Test Testowski"},
+          Token: null,
+          isLoggedIn: false,
+          Errors: [],
+          RegisterMode: false,
+          AddProductMode: false,
+          CartMode: false,
+          expTime: null,
+          UserRole: "None",
+          Order: null,
+          itemsQuantity: 0,
+          orderId: 0,
+          redirect: true,
+          productsQuantity: 0,
+      })
+          if(this.state.Order != null){
+            this.deleteOrder()
+          }
     }
     removeErrors = () => {
       this.setState({
@@ -127,7 +151,11 @@ class App extends React.Component {
     {
         axios.get("https://localhost:5001/api/product/all")
         .then(result => {
-            this.setState({products: result.data})
+            this.setState({
+              products: result.data
+            })
+            this.state.products.forEach(element => {
+            });
         })
         .catch(err => {
             console.log(err)
@@ -195,20 +223,20 @@ class App extends React.Component {
         return this.state.Order.products.length
       }
     }
-    enableCartView = () => {
-      this.setState({
-        RegisterMode: false,
-        AddProductMode: false,
-        CartMode: true
-      })
+
+    deleteOrder = () => {
+        const headers = {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        axios.delete(`https://localhost:5001/api/order/${this.state.OrderId}`, {
+            headers: headers
+        })
+        .then(result => {
+        })
+        .catch(err => {
+        })
     }
-    disableCartView = () => {
-      this.setState({
-        RegisterMode: false,
-        AddProductMode: false,
-        CartMode: false
-      })
-    }
+
     completeOrder = () => {
       this.setState({
         Order: null,
@@ -216,7 +244,14 @@ class App extends React.Component {
         itemsQuantity: 0
       })
     }
-
+    loadNewListOfProducts = () => {
+      this.setState({
+        products: []
+      })
+      this.getAllProducts()
+    }
+    
+    
     state = {
         User: {
             login: "None",
@@ -226,24 +261,60 @@ class App extends React.Component {
         products: [],
         isLoggedIn: false,
         Errors: [],
-        RegisterMode: false,
-        AddProductMode: false,
-        CartMode: false,
         expTime: null,
         UserRole: "None",
         Order: null,
         itemsQuantity: 0,
-        orderId: 0
+        orderId: 0,
+        productsQuantity: null,
     }
 
 
     render (){
+      if(this.state.redirect){
         return(
-         <div className="ui container">
-            <Notification/>
-             <Nav disableCartMode={this.disableCartView} isInCartMode={this.state.CartMode} enableCartView = {this.enableCartView} itemsQuantity={this.state.itemsQuantity} UserRole={this.state.UserRole} sessionEnds={this.state.expTime} isInRegisterMode={this.state.RegisterMode} AddProductMode={this.AddProductMode} isLoggedIn={this.state.isLoggedIn} User = {this.state.User} login={this.login} register={this.moveToRegisterPage} returnToMain={this.returnToMain} logout={this.logout} disableProductMode={this.disableProductMode}></Nav>
-             <Main completeOrder={this.completeOrder} OrderId = {this.state.orderId} isInCartMode={this.state.CartMode} products={this.state.products} addToCart={this.addToCart} removeErrors={this.removeErrors} isInRegisterMode={this.state.RegisterMode} isInAddingProductMode={this.state.AddProductMode} register = {this.register} errors = {this.state.Errors}></Main>
-         </div>)
+              <Router>
+                  <div className="ui container">
+                      <Notification/>
+                      <Nav
+                            disableCartMode={this.disableCartView}
+                            isInCartMode={this.state.CartMode}
+                            // enableCartView = {this.enableCartView}
+                            itemsQuantity={this.state.itemsQuantity}
+                            UserRole={this.state.UserRole}
+                            sessionEnds={this.state.expTime}
+                            isInRegisterMode={this.state.RegisterMode}
+                            isInAddingProductMode={this.state.AddProductMode}
+                            AddProductMode={this.AddProductMode}
+                            isLoggedIn={this.state.isLoggedIn}
+                            User = {this.state.User}
+                            login={this.login}
+                            logout={this.logout}
+                            >
+                      </Nav>
+                      <Main
+                            completeOrder={this.completeOrder}
+                            OrderId = {this.state.orderId}
+                            isInCartMode={this.state.CartMode}
+                            products={this.state.products}
+                            addToCart={this.addToCart}
+                            removeErrors={this.removeErrors}
+                            isInRegisterMode={this.state.RegisterMode}
+                            isInAddingProductMode={this.state.AddProductMode}
+                            register = {this.register}
+                            errors = {this.state.Errors}
+                            loadNewListOfProducts={this.loadNewListOfProducts}
+                            >
+                      </Main>
+                  </div>
+              </Router>
+         )} else {
+           return(
+             <Router>
+                <Redirect to="/"/>
+             </Router>
+           )
+         }
     }
 }
 export default App

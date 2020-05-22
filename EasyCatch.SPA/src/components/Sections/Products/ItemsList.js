@@ -2,7 +2,6 @@ import React from 'react'
 import Products from './Products'
 
 class ItemsList extends React.Component{
-
     render(){
         return(
             <div className = "ui center aligned segment">
