@@ -1,8 +1,8 @@
 import React from 'react'
-import Register from './Register'
-import ItemsList from './ItemsList'
-import Cart from './Cart'
-import AddProduct from './AddProduct'
+import Register from './Sections/Register'
+import ItemsList from './Sections/Products/ItemsList'
+import Cart from './Sections/Cart/Cart'
+import AddProduct from './Sections/AddProduct'
 
 class Main extends React.Component {
 
@@ -21,11 +21,6 @@ class Main extends React.Component {
     componentDidUpdate(){
 
     }
-    register = (user) => {
-        console.log(user)
-    }
-    
-
 
     render(){
         if(this.props.isInRegisterMode){

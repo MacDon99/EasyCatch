@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { notify } from './Notifications'
+import { notify } from '../Notifications'
 
 export class AddProduct extends Component {
     onChangeHandler=event=>{
 
-        console.log(event.target.files[0])
-        this.setState({
-            message: event.target.files[0].name,
-            file: event.target.files[0]
-        })
-    
+        if(event.target.files[0].type === "image/jpeg" || event.target.files[0].type === "image/png"){
+            this.setState({
+                message: event.target.files[0].name,
+                file: event.target.files[0]
+            })
+        } else {
+            notify("Chosen file is not a photo", "error");
+        }
     }
     onNameChange = (event) => {
         this.setState({
@@ -34,6 +36,7 @@ export class AddProduct extends Component {
     }
     AddProduct = (event) => {
         event.preventDefault()
+        if(this.state.file !== null && this.state.name !== null && this.state.price !== null && this.state.quantity !== null && this.state.description !== null){
         const headers = {
             "Authorization": "Bearer " + localStorage.getItem("token")
           }
@@ -51,8 +54,10 @@ export class AddProduct extends Component {
             notify("You have added a new product!","success")
         })
         .catch((err) => {
-            console.log(err)
         })
+    } else {
+        notify("Please enter required data.","error");
+    }
     }
 
 
@@ -62,7 +67,8 @@ export class AddProduct extends Component {
         name: null,
         description:  null,
         price: null,
-        quantity: null
+        quantity: null,
+        Errors: []
     }
     render() {
         return (

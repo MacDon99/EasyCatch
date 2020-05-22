@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Order from './Order'
-import { notify } from './Notifications'
+import { notify } from '../../Notifications'
 export class Cart extends Component {
 
     componentDidUpdate(){
