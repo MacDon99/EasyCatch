@@ -73,7 +73,7 @@ export class AddProduct extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="ui segment">
                 <form className="ui form">
                 <div className="field">
                     <label>Product name</label>
@@ -97,7 +97,7 @@ export class AddProduct extends Component {
                         Open File</label>
                     <input type="file" id="file" style={{display: "none"}} onChange={this.onChangeHandler}/>
                     <label>{this.state.message}</label>
-                </div>
+                </div><br/>
                 <button className="ui button" type="submit" onClick={this.AddProduct}>Submit</button>
                 </form>
             </div>
