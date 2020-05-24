@@ -256,7 +256,7 @@ class App extends React.Component {
         User: {
             login: "None",
             email: "none@none.com",
-            fullName: "Test Testowski"},
+            fullName: "None"},
         Token: null,
         products: [],
         isLoggedIn: false,
@@ -279,7 +279,6 @@ class App extends React.Component {
                       <Nav
                             disableCartMode={this.disableCartView}
                             isInCartMode={this.state.CartMode}
-                            // enableCartView = {this.enableCartView}
                             itemsQuantity={this.state.itemsQuantity}
                             UserRole={this.state.UserRole}
                             sessionEnds={this.state.expTime}

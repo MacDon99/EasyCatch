@@ -10,6 +10,7 @@ export class Cart extends Component {
     //     clearInterval(this.interval);
     // }
 
+
     componentDidMount(){
         if(this.props.OrderId !== 0){
             if(this.state.products.length === 0){
@@ -50,6 +51,9 @@ export class Cart extends Component {
             notify("Completing error","error")
         })
     }
+    deleteProduct = (productId) => {
+        console.log(productId)
+    }
 
     state = {
         products: [],
@@ -62,7 +66,7 @@ export class Cart extends Component {
                 <div className = "ui center aligned segment">
                     <h4>This is your Cart</h4>
                     <h5>Order price: {this.state.orderPrice}</h5>
-                    <Order products = {this.state.products}/>
+                    <Order products = {this.state.products} deleteProduct={this.deleteProduct}/>
                     <button className="ui button centered" onClick={this.completeOrder}>Complete Order</button>
                     {/* <Order products = {this.state.products}/> */}
                 </div>

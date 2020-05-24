@@ -14,6 +14,8 @@ namespace EasyCatch.Infrastructure.Services
          Task<ProductResponse> AddProduct(ProductRequest product, HttpRequest request);
          Task<ProductResponse> DeleteProduct(string id);
          Task<ProductResponse> GetProductByID(string id);
+         Task<ProductResponse> GetProductToBuyByID(string id);
+
          Task<List<ProductResponse>> GetProductsByName();
          Task<List<ProductToBuy>> GetAllProductsRelatedAsync();
          Task<List<Product>> GetAllProducts();

@@ -11,6 +11,8 @@ namespace EasyCatch.Infrastructure.Services
          Task<OrderResponse> GetOrderByIDAsync(string id);
          Task<OrderResponse> DeleteOrder(string id);
          Task<OrderResponse> AddProductToOrderAsync(string orderId, string productId);
+         Task<OrderResponse> DeleteProductFromOrderAsync(string orderId, string productId);
+         
          Task<OrderResponse> SetOrderAddress(AddressRequest address);
     }
 }

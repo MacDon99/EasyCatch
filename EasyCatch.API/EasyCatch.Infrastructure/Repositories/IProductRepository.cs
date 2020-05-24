@@ -12,6 +12,8 @@ namespace EasyCatch.Infrastructure.Repositories
         Task<ProductResponse> AddProductAsync(Product product);
          Task<ProductResponse> DeleteProductByIDAsync(Guid id);
          Task<ProductResponse> GetProductByIDAsync(Guid id);
+         Task<ProductResponse> GetProductToBuyByIdAsync(int id);
+         Task <Guid> GetProductIdFromProductToBuyInfo(ProductResponse product);
          Task<Product> GetWholeProductByIdAsync(Guid id);
          Task<List<ProductToBuy>> GetAllProductsRelatedAsync();
          Task<List<Product>> GetAllProducts();

@@ -144,5 +144,44 @@ namespace EasyCatch.Infrastructure.Repositories
         {
             return _appDbContext.Orders.AnyAsync(o => o.Id == orderId);
         }
+
+        public async Task<OrderResponse> DeleteProductFromOrderAsync(Guid orderId, ProductToBuy product, Guid productId)
+        {
+            var order = await _appDbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
+            
+            order.Products = _appDbContext.ProductToBuy.Where(p => p.OrderId == orderId).ToList();
+            if(!order.Products.Any(p => p.Description == product.Description))
+             {
+                return new OrderResponse(){
+                    Success = false,
+                    Message = "There are none products in that order with given Id."
+                };
+             }
+             
+            if(order.Products.FirstOrDefault(p => p.Description == product.Description).Quantity > 0)
+                {
+                    order.Products.FirstOrDefault(p => p.Description == product.Description).Quantity -=1;
+                    order.TotalPrice -= product.Price;
+                    var productToDelete = order.Products.FirstOrDefault(p => p.Description == product.Description);
+                    order.Products.Remove(productToDelete);
+                    _appDbContext.Products.FirstOrDefaultAsync(p => p.Id == productId).Result.Quantity+=1;
+                    await _appDbContext.SaveChangesAsync();
+                }
+
+            return new OrderResponse(){
+                Success = true,
+                Message = "You have succesfully removed item from order.",
+                Errors = null,
+                Order = new OrderForResponse(){
+                    Id = order.Id,
+                    Products = order.Products,
+                    TotalPrice = order.TotalPrice,
+                    Street = order.Street,
+                    HouseNumber = order.HouseNumber,
+                    PostCode = order.PostCode,
+                    City = order.City
+                }
+            };
+        }
     }
 }

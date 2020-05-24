@@ -86,7 +86,14 @@ namespace EasyCatch.Infrastructure.Services
             }
             catch
             {
-                return false;
+                try
+                {
+                    Convert.ToInt32(id);
+                }
+                catch
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -137,6 +144,17 @@ namespace EasyCatch.Infrastructure.Services
         public async Task<List<Product>> GetAllProducts()
         {
             return await _productRepository.GetAllProducts();
+        }
+
+        public async Task<ProductResponse> GetProductToBuyByID(string id)
+        {
+            if(! isValidId(id))
+                return new ProductResponse(){
+                    Success = false,
+                    Message = "Product cannot be found"
+                };
+
+            return await _productRepository.GetProductToBuyByIdAsync(Convert.ToInt32(id));
         }
     }
 }

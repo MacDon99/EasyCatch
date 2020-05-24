@@ -99,5 +99,38 @@ namespace EasyCatch.Infrastructure.Repositories
         {
             return await _appDbContext.Products.ToListAsync();
         }
+
+        public async Task<ProductResponse> GetProductToBuyByIdAsync(int id)
+        {
+            if(!await _appDbContext.ProductToBuy.AnyAsync(p => p.Id == id))
+            {
+                return new ProductResponse(){
+                    Success = false,
+                    Message = "Cannot find product with given id in that order"
+                };
+            }
+            var productFromDatabase = await _appDbContext.ProductToBuy.FirstOrDefaultAsync(p => p.Id == id);
+            return new ProductResponse(){
+                Success = true,
+                Message = "You get the following product",
+                Product = new ProductModel(){
+                    Name = productFromDatabase.Name,
+                    Price = productFromDatabase.Price,
+                    Description = productFromDatabase.Description,
+                    PhotoUrl = productFromDatabase.PhotoUrl,
+                    Quantity = productFromDatabase.Quantity
+                }
+            };
+        }
+
+        public async Task<Guid> GetProductIdFromProductToBuyInfo(ProductResponse product)
+        {
+            if(!await _appDbContext.ProductToBuy.AnyAsync(p => p.Description == product.Product.Description))
+            {
+                throw new Exception("Cannot find product with given Id");
+            }
+            var productFromDatabase = await _appDbContext.Products.FirstOrDefaultAsync(p => p.Description == product.Product.Description);
+            return productFromDatabase.Id;
+        }
     }
 }

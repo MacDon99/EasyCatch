@@ -33,11 +33,20 @@ namespace EasyCatch.API.Web.Controllers
         [HttpPatch("addProduct")]
         public async Task<IActionResult> AddProductToOrder(AddProductToOrderRequest request)
         {
-            var orderToAddProduct = await _orderService.AddProductToOrderAsync(request.orderId, request.productId);
-            if(orderToAddProduct.Success == false)
-                return BadRequest(orderToAddProduct);
+            var response = await _orderService.AddProductToOrderAsync(request.orderId, request.productId);
+            if(response.Success == false)
+                return BadRequest(response);
 
-            return Ok(orderToAddProduct);
+            return Ok(response);
+        }
+        [HttpPatch("removeProduct")]
+        public async Task<IActionResult> DeleteProductFromOrder(AddProductToOrderRequest request)
+        {
+            var response = await _orderService.DeleteProductFromOrderAsync(request.orderId, request.productId);
+            if(response.Success == false)
+                return BadRequest(response);
+
+            return Ok(response);
         }
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrder(string orderId)

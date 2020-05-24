@@ -136,11 +136,57 @@ namespace EasyCatch.Infrastructure.Services
             }
             catch
             {
-                return false;
+                try
+                {
+                    Convert.ToInt32(id);
+                }
+                catch
+                {
+                    return false;
+                }
             }
             return true;
         }
 
+        public async Task<OrderResponse> DeleteProductFromOrderAsync(string orderId, string productId)
+        {
+            
+           if(!isValidId(orderId) || !isValidId(productId))
+           {
+               if(!isValidId(orderId))
+                return new OrderResponse(){
+                    Success = false,
+                    Message = "Invalid OrderId"
+                };
+                return new OrderResponse(){
+                    Success = false,
+                    Message = "Invalid ProductId"
+                };
+           }
+           if(!await _orderRepository.OrderExist(new Guid(orderId)))
+           {
+               return new OrderResponse(){
+                   Success = false,
+                   Message = "Cannot find order with that Id"
+               };
+           }
+            var productx = await _productRepository.GetProductToBuyByIdAsync(Convert.ToInt32(productId));
+            if(!productx.Success){
+                return new OrderResponse(){
+                    Success = false,
+                    Message = productx.Message
+                };
+            }
 
+            var productRealId = await _productRepository.GetProductIdFromProductToBuyInfo(productx);
+            
+            return await _orderRepository.DeleteProductFromOrderAsync(new Guid(orderId), new ProductToBuy(){
+                Name = productx.Product.Name,
+                Price = productx.Product.Price,
+                PhotoUrl = productx.Product.PhotoUrl,
+                Description = productx.Product.Description,
+                Quantity = 0
+            }, productRealId);
+        }
     }
 }
