@@ -20,6 +20,8 @@ return(
             <Route path="/" exact component={ () => <ItemsList
                                                         products={this.props.products}
                                                         addToCart={this.props.addToCart}
+                                                        UserRole={this.props.UserRole}
+                                                        deleteProduct={this.props.deleteProduct}
             />}/>
             <Route path="/Register" component={ () => <Register
                                                         register = {this.props.register}

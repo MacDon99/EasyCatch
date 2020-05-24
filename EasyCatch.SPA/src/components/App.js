@@ -259,7 +259,21 @@ class App extends React.Component {
         itemsQuantity: this.state.itemsQuantity -1
       })
     }
-    
+    deleteProduct = (productId) => {
+      const headers = {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+      axios.delete(`https://localhost:5001/api/product/${productId}`, {
+        headers: headers
+      })
+      .then( result => {
+        notify("You have succesfully deleted the product!", "success")
+        this.loadNewListOfProducts()
+      })
+      .catch( (err) => {
+        notify("Error while deleting product","error")
+      })
+    }
     state = {
         User: {
             login: "None",
@@ -312,6 +326,8 @@ class App extends React.Component {
                             errors = {this.state.Errors}
                             loadNewListOfProducts={this.loadNewListOfProducts}
                             decreaseQuantityOfProductsInCart={this.decreaseQuantityOfProductsInCart}
+                            UserRole={this.state.UserRole}
+                            deleteProduct={this.deleteProduct}
                             >
                       </Main>
                   </div>

@@ -6,7 +6,7 @@ class ItemsList extends React.Component{
         return(
             <div className = "ui center aligned segment">
                 <h4>Welcome to my shop, here is a list of items you can buy</h4>
-                <Products products={this.props.products} addToCart = {this.props.addToCart}/>
+                <Products products={this.props.products} addToCart = {this.props.addToCart} UserRole={this.props.UserRole} deleteProduct={this.props.deleteProduct}/>
             </div>
         )
     }
