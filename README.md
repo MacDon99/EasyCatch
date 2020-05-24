@@ -1,14 +1,16 @@
+
 # EasyCatch - fishing shop
 Project for classes created with ASP.NET, React.js and PostgreSql.
 
 For the first x commits I used different git account - RybczanSodu, idk why.
 
-Technologies
-Back:
+**Technologies**
+**Back**:
 * .Net Core: 3.1
 * Entity Framework Core with PostgreSql: 3.1.3
 * JwtBearer: 3.1.3
-Front:
+
+**Front**:
 * React.js: 16.13.1
 * event-emitter: ^0.3.5
 * jwt-decode: ^2.2.0
