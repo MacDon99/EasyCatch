@@ -24,7 +24,7 @@ To run the API project, type dotnet run in EasyCatch.Api/EasyCatch.Web,
 install react locally by typing npm install in EasyCatch.SPA
 and npm start in EasyCatch.SPA to start the app
 
-**Using:**
+**Using API:**
 ```
       Controllers:
                 Authentication:
