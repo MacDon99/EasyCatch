@@ -76,3 +76,5 @@ and npm start in EasyCatch.SPA to start the app
                                                      - as productId type actual productId
 
 ```
+### Main
+![MainMenu](./screenshots/Main.png) 
