@@ -17,8 +17,9 @@ For the first x commits I used different git account - RybczanSodu, idk why.
 * uuid: ^8.0.0
       
 ## Setup
-To run the API project, type dotnet run in EasyCatch.Api/EasyCatch.Web
-and npm start in EasyCatch.SPA
+To run the API project, type dotnet run in EasyCatch.Api/EasyCatch.Web,
+install react locally by typing npm install in EasyCatch.SPA
+and npm start in EasyCatch.SPA to start the app
 
 **Using:**
 ```
