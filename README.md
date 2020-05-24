@@ -87,6 +87,8 @@ and npm start in EasyCatch.SPA to start the app
 ![RegisterErrors](./screenshots/RegisterErrors.png) 
 ### Admin logged in
 ![AdminView](./screenshots/AdminView.png) 
+### Admin deleted product from shop
+![AdminDeletedProduct](./screenshots/AdminDeletedProduct.png) 
 ### Adding Products
 ![AddingProducts](./screenshots/AddingProducts.png) 
 ### Cart
