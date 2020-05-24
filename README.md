@@ -77,4 +77,16 @@ and npm start in EasyCatch.SPA to start the app
 
 ```
 ### Main
-![MainMenu](./screenshots/Main.png) 
+![MainMenu](./screenshots/Main.png)
+### Register
+![Register](./screenshots/Register.png) 
+### Register errors
+![RegisterErrors](./screenshots/RegisterErrors.png) 
+### Admin logged in
+![AdminView](./screenshots/AdminView.png) 
+### Adding Products
+![AddingProducts](./screenshots/AddingProducts.png) 
+### Cart
+![Cart](./screenshots/NormalUserCar.png) 
+### Deleted Product
+![DeletedProduct](./screenshots/DeletedProduct.png) 
