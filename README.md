@@ -3,7 +3,7 @@ Project for classes created with ASP.NET, React.js and PostgreSql.
 
 For the first x commits I used different git account - RybczanSodu, idk why.
 
-Technologies:
+Technologies
 Back:
 * .Net Core: 3.1
 * Entity Framework Core with PostgreSql: 3.1.3
