@@ -15,6 +15,9 @@ For the first x commits I used different git account - RybczanSodu, idk why.
 * event-emitter: ^0.3.5
 * jwt-decode: ^2.2.0
 * uuid: ^8.0.0
+* react-router-dom ^5.2.0
+
+App has proper routes to the place you are currently at, example -> registering: http:localhost:3000/Register etc.
       
 ## Setup
 To run the API project, type dotnet run in EasyCatch.Api/EasyCatch.Web,
@@ -76,3 +79,17 @@ and npm start in EasyCatch.SPA to start the app
                                                      - as productId type actual productId
 
 ```
+### Main
+![MainMenu](./screenshots/Main.png)
+### Register
+![Register](./screenshots/Register.png) 
+### Register errors
+![RegisterErrors](./screenshots/RegisterErrors.png) 
+### Admin logged in
+![AdminView](./screenshots/AdminView.png) 
+### Adding Products
+![AddingProducts](./screenshots/AddingProducts.png) 
+### Cart
+![Cart](./screenshots/NormalUserCart.png) 
+### Deleted Product
+![DeletedProduct](./screenshots/DeletedProduct.png) 
