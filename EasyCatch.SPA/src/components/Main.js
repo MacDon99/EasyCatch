@@ -33,6 +33,7 @@ return(
             <Route path="/Cart" component={ () => <Cart
                                                         completeOrder={this.props.completeOrder}
                                                         OrderId={this.props.OrderId}
+                                                        decreaseQuantityOfProductsInCart={this.props.decreaseQuantityOfProductsInCart}
             />}/>
         </Switch>
 

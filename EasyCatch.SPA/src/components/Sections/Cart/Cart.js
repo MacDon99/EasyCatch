@@ -52,7 +52,25 @@ export class Cart extends Component {
         })
     }
     deleteProduct = (productId) => {
-        console.log(productId)
+        var productToDelete = {
+            "orderId": this.props.OrderId,
+            "productId": `${productId}`
+        }
+        console.log(productToDelete)
+        const headers = {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        axios.patch("https://localhost:5001/api/order/removeProduct", productToDelete, {
+            headers: headers
+        })
+        .then(result => {
+            notify("You have deleted product from order","success")
+            this.props.decreaseQuantityOfProductsInCart()
+        })
+        .catch((err) => {
+            console.log(err.response)
+            notify(err.response.data.message,"error")
+        })
     }
 
     state = {

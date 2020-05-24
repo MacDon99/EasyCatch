@@ -22,6 +22,10 @@ class App extends React.Component {
         localStorage.removeItem("token")
          //this.interval = setInterval(() => this.setState({ time: Date.now() }), 100);
         this.getAllProducts()
+        
+        if(this.state.Order != null){
+          this.deleteOrder()
+        }
         // this.returnToMain()
         this.setState({
           User: {
@@ -250,7 +254,11 @@ class App extends React.Component {
       })
       this.getAllProducts()
     }
-    
+    decreaseQuantityOfProductsInCart = () => {
+      this.setState({
+        itemsQuantity: this.state.itemsQuantity -1
+      })
+    }
     
     state = {
         User: {
@@ -266,7 +274,7 @@ class App extends React.Component {
         Order: null,
         itemsQuantity: 0,
         orderId: 0,
-        productsQuantity: null,
+        productsQuantity: 0,
     }
 
 
@@ -303,6 +311,7 @@ class App extends React.Component {
                             register = {this.register}
                             errors = {this.state.Errors}
                             loadNewListOfProducts={this.loadNewListOfProducts}
+                            decreaseQuantityOfProductsInCart={this.decreaseQuantityOfProductsInCart}
                             >
                       </Main>
                   </div>
