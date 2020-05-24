@@ -87,6 +87,6 @@ and npm start in EasyCatch.SPA to start the app
 ### Adding Products
 ![AddingProducts](./screenshots/AddingProducts.png) 
 ### Cart
-![Cart](./screenshots/NormalUserCar.png) 
+![Cart](./screenshots/NormalUserCart.png) 
 ### Deleted Product
 ![DeletedProduct](./screenshots/DeletedProduct.png) 
