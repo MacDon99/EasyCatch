@@ -16,8 +16,9 @@ For the first x commits I used different git account - RybczanSodu, idk why.
 * jwt-decode: ^2.2.0
 * uuid: ^8.0.0
       
-
-If you want to run the API project, type dotnet run in EasyCatch.Api/EasyCatch.Web
+##Setup
+To run the API project, type dotnet run in EasyCatch.Api/EasyCatch.Web
+and npm start in EasyCatch.SPA
 
 **Using:**
 ```
