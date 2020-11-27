@@ -36,6 +36,7 @@ namespace EasyCatch.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            // UseStaticFiles
         }
 
         public IConfiguration Configuration { get; }
