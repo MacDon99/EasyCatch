@@ -1,3 +1,4 @@
+using EasyCatch.API.Core.Requests;
 using EasyCatch.API.Web.Controllers;
 using NUnit.Framework;
 
