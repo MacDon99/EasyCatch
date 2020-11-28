@@ -1,6 +1,6 @@
 
 # EasyCatch - fishing shop
-Project for classes created with ASP.NET, React.js and PostgreSql.
+Project for classes created with ASP.NET Core, React.js and PostgreSql.
 
 For the first x commits I used different git account - RybczanSodu, idk why.
 
