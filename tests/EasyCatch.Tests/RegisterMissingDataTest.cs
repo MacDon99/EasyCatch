@@ -29,7 +29,7 @@ namespace EasyCatch.Tests
             //Assert
             Assert.AreEqual(expectedErrorsCount, userRequest.Errors.Count);
         }
-        [Test,TestCaseSource(typeof(RegisterTestCases),"OnePropIsMissingTestCases")]
+        [Test,TestCaseSource(typeof(RegisterTestCases),"OneValidPropIsProvided")]
         public void When_Registering_And_Only_One_Valid_Prop_Is_Provided_Should_Return_Four_Errors(UserRegisterRequest userRequest)
         {
             //Prepare
