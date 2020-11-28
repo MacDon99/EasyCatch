@@ -6,7 +6,7 @@ For the first x commits I used different git account - RybczanSodu, idk why.
 
 **Technologies**
 **Back**:
-* .Net Core: 3.1
+* .Net 5
 * Entity Framework Core with PostgreSql: 3.1.3
 * JwtBearer: 3.1.3
 
